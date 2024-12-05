@@ -1,0 +1,598 @@
+fileFormatVersion: 2
+guid: f0f6a00cde9a748299b8a10157df5b7b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4750361980843691197
+    second: Agent_Idle_SpriteSheet_FREE_0
+  - first:
+      213: -198660240752313803
+    second: Agent_Idle_SpriteSheet_FREE_1
+  - first:
+      213: 3272664727859090510
+    second: Agent_Idle_SpriteSheet_FREE_2
+  - first:
+      213: 2651506033024650160
+    second: Agent_Idle_SpriteSheet_FREE_3
+  - first:
+      213: -2586188793366063105
+    second: Agent_Idle_SpriteSheet_FREE_4
+  - first:
+      213: 4296682679483375914
+    second: Agent_Idle_SpriteSheet_FREE_5
+  - first:
+      213: 7757870827110552395
+    second: Agent_Idle_SpriteSheet_FREE_6
+  - first:
+      213: 6811541187982999351
+    second: Agent_Idle_SpriteSheet_FREE_7
+  - first:
+      213: 8123459302527583477
+    second: Agent_Idle_SpriteSheet_FREE_8
+  - first:
+      213: 2815206766129977263
+    second: Agent_Idle_SpriteSheet_FREE_9
+  - first:
+      213: 6210537483926623414
+    second: Agent_Idle_SpriteSheet_FREE_10
+  - first:
+      213: -4246180563338108561
+    second: Agent_Idle_SpriteSheet_FREE_11
+  - first:
+      213: -7104489412530457202
+    second: Agent_Idle_SpriteSheet_FREE_12
+  - first:
+      213: -7845346880548670458
+    second: Agent_Idle_SpriteSheet_FREE_13
+  - first:
+      213: -6667562775044444887
+    second: Agent_Idle_SpriteSheet_FREE_14
+  - first:
+      213: 7675089365542486875
+    second: Agent_Idle_SpriteSheet_FREE_15
+  - first:
+      213: 1724510442772009193
+    second: Agent_Idle_SpriteSheet_FREE_16
+  - first:
+      213: 3061040223811048118
+    second: Agent_Idle_SpriteSheet_FREE_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 95
+        width: 34
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3437a4962f2531eb0800000000000000
+      internalID: -4750361980843691197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 104
+        width: 31
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53af6f640973e3df0800000000000000
+      internalID: -198660240752313803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 72
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e44ddfc0b37da6d20800000000000000
+      internalID: 3272664727859090510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_3
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 49
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bb4d3250ba0cc420800000000000000
+      internalID: 2651506033024650160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 72
+        width: 14
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff7d151aef20c1cd0800000000000000
+      internalID: -2586188793366063105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_5
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 49
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a212e27d122e0ab30800000000000000
+      internalID: 4296682679483375914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_6
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 72
+        width: 14
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b435a4f0a6e79ab60800000000000000
+      internalID: 7757870827110552395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_7
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 49
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73f3ba21f94778e50800000000000000
+      internalID: 6811541187982999351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_8
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 72
+        width: 14
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f4cf7a12335cb070800000000000000
+      internalID: 8123459302527583477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_9
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 49
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa7147063af911720800000000000000
+      internalID: 2815206766129977263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 24
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b4d1b1dfe2403650800000000000000
+      internalID: 6210537483926623414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_11
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 24
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f61601e56498215c0800000000000000
+      internalID: -4246180563338108561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_12
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 24
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e85399f3588c76d90800000000000000
+      internalID: -7104489412530457202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_13
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 24
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6047d2d149abf1390800000000000000
+      internalID: -7845346880548670458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_14
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 0
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92dabdb7bfe0873a0800000000000000
+      internalID: -6667562775044444887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_15
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b53c9841d15638a60800000000000000
+      internalID: 7675089365542486875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_16
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 0
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e090e06c11bee710800000000000000
+      internalID: 1724510442772009193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Agent_Idle_SpriteSheet_FREE_17
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 0
+        width: 8
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b2907f8ddffa7a20800000000000000
+      internalID: 3061040223811048118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Agent_Idle_SpriteSheet_FREE_0: -4750361980843691197
+      Agent_Idle_SpriteSheet_FREE_1: -198660240752313803
+      Agent_Idle_SpriteSheet_FREE_10: 6210537483926623414
+      Agent_Idle_SpriteSheet_FREE_11: -4246180563338108561
+      Agent_Idle_SpriteSheet_FREE_12: -7104489412530457202
+      Agent_Idle_SpriteSheet_FREE_13: -7845346880548670458
+      Agent_Idle_SpriteSheet_FREE_14: -6667562775044444887
+      Agent_Idle_SpriteSheet_FREE_15: 7675089365542486875
+      Agent_Idle_SpriteSheet_FREE_16: 1724510442772009193
+      Agent_Idle_SpriteSheet_FREE_17: 3061040223811048118
+      Agent_Idle_SpriteSheet_FREE_2: 3272664727859090510
+      Agent_Idle_SpriteSheet_FREE_3: 2651506033024650160
+      Agent_Idle_SpriteSheet_FREE_4: -2586188793366063105
+      Agent_Idle_SpriteSheet_FREE_5: 4296682679483375914
+      Agent_Idle_SpriteSheet_FREE_6: 7757870827110552395
+      Agent_Idle_SpriteSheet_FREE_7: 6811541187982999351
+      Agent_Idle_SpriteSheet_FREE_8: 8123459302527583477
+      Agent_Idle_SpriteSheet_FREE_9: 2815206766129977263
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
