@@ -19,8 +19,8 @@ public class BoardManager : MonoBehaviour
 
     // Definimos las variables del tablero
     public GameObject[] tileTypes; // Los tipos de tiles (piso, pared, etc.)
-    public GameObject Cobre; // Lugar donde estará el cobre
-    public GameObject[] outerWallTiles; // Paredes exteriores
+    public GameObject cobre; // Lugar donde estará el cobre
+    public GameObject defaultTile;
     public GameObject[] enemyTiles; // Enemigos
 
     private List<string> lines = new List<string>(); // Lista de líneas leídas desde el archivo
@@ -83,21 +83,33 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // Método para configurar el tablero con base en los datos cargados
     void BoardSetup()
     {
         LoadBoardFromFile("Assets/MapaLayout/BoardLayout.txt"); // Cargamos el archivo .txt
         boardHolder = new GameObject("Board").transform;
 
         // Iteramos sobre las filas y columnas
-        for (int x = 0; x < columns; x++)
+        for (int y = 0; y < rows; y++) // Primero iteramos sobre las filas
         {
-            for (int y = 0; y < rows; y++)
+            for (int x = 0; x < columns; x++) // Después sobre las columnas
             {
                 GameObject toInstantiate;
-                // Leemos el tile correspondiente desde el archivo y lo instanciamos
-                char tileChar = lines[y][x]; // Obtenemos el carácter en la posición (x, y)
-                int tileIndex = GetTileIndexFromLetter(tileChar); // Convertimos la letra a un índice
+                char tileChar;
+
+                // Comprobamos si la fila actual tiene suficientes columnas
+                if (x < lines[y].Length)
+                {
+                    // Si hay suficientes columnas, obtenemos el carácter en la posición (x, y)
+                    tileChar = lines[y][x];
+                }
+                else
+                {
+                    // Si no hay suficiente longitud en la fila, asignamos un carácter por defecto
+                    tileChar = ' '; //No es valid, retornara -1 i li asignarem el default
+                }
+
+                // Convertimos el carácter en un índice de tile
+                int tileIndex = GetTileIndexFromLetter(tileChar);
 
                 if (tileIndex >= 0 && tileIndex < tileTypes.Length)
                 {
@@ -106,14 +118,16 @@ public class BoardManager : MonoBehaviour
                 else
                 {
                     // Si el índice no es válido, usamos un tile vacío o por defecto
-                    toInstantiate = tileTypes[0]; // O cualquier tile por defecto
+                    toInstantiate = defaultTile; // O cualquier tile por defecto
                 }
-                // Instanciamos el objeto
+
+                // Instanciamos el objeto en la posición (x, y)
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
             }
         }
     }
+
 
     // Método para crear objetos en posiciones aleatorias (extra)
     Vector3 RandomPosition()
@@ -143,6 +157,10 @@ public class BoardManager : MonoBehaviour
         InitialiseList(); // Inicializa la lista de posiciones
         int enemyCount = (int)Mathf.Log(level, 2f);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount); // Coloca enemigos en el tablero
+
+        //ES UNA PROVA NOMES
+        Instantiate(cobre, new Vector3(2, 2, 0f), Quaternion.identity);
+
     }
 }
 

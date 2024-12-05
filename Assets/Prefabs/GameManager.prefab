@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5769199949418766394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575787508719702637}
+  - component: {fileID: 4105244279072750014}
+  - component: {fileID: 4431513298748892965}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1575787508719702637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769199949418766394}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4105244279072750014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769199949418766394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af50dd551446e4578a0e2d0c225daffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileTypes:
+  - {fileID: 7593247919035581155, guid: 5f6df82149cf9435eb230dcf44096bee, type: 3}
+  - {fileID: 3864935880012312014, guid: afe2d124686d44cbc809c72354e7de4b, type: 3}
+  - {fileID: 3321823401103233893, guid: 1fb2c5dcc5cd14dc98ec3e0f38fa0679, type: 3}
+  - {fileID: 6750420999169927682, guid: 8be2adcf51eb34ddca32ca82098b3cf7, type: 3}
+  - {fileID: 6841804431682355651, guid: 8e073292490d040a28abf56ea9be9604, type: 3}
+  cobre: {fileID: 1665079376390256, guid: 2a620c32ca16b477db8f2d7c4308c6c1, type: 3}
+  defaultTile: {fileID: 6681590592618979283, guid: 2eb4c5685445a425c801b6839eef2cc7, type: 3}
+  enemyTiles:
+  - {fileID: 3738178845573111761, guid: 9ea3aacc82f9e431ebaec7c4f4e84dd1, type: 3}
+  - {fileID: 8897740707354306096, guid: 9a9277eb61df94868a69b118bfcb7191, type: 3}
+  - {fileID: 8761806764847989140, guid: 80c0694848a3f4c2eb012a9366fae1e2, type: 3}
+  - {fileID: 4850317122090990056, guid: f24414656b59148b09a1eeb4b227a99d, type: 3}
+--- !u!114 &4431513298748892965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769199949418766394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf205d1955b148729aaefb9b4f88448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
