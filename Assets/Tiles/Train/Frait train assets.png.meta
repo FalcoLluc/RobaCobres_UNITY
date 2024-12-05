@@ -372,7 +372,17 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Frait train assets_0: -5520812293709268052
+      Frait train assets_1: 4878943853506964422
+      Frait train assets_2: -428975022357571621
+      Frait train assets_3: 2558198365700898015
+      Frait train assets_4: 1770104373902043921
+      Frait train assets_5: 6584573095407713835
+      Frait train assets_6: -6925604202748760206
+      Frait train assets_7: 2766013336492043532
+      Frait train assets_8: 6808027047156861796
+      Frait train assets_9: 7766921060831973499
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

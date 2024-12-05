@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Renegade_Walk_3_strip4_0: 4548264402779196979
+      Renegade_Walk_3_strip4_1: 4312509091484415323
+      Renegade_Walk_3_strip4_2: 1794412856835534828
+      Renegade_Walk_3_strip4_3: -6882594012707493767
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

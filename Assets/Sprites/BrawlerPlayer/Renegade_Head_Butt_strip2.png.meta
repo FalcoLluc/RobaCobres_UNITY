@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Renegade_Head_Butt_strip2_0: -1859332371364714635
+      Renegade_Head_Butt_strip2_1: 8469843158253870717
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

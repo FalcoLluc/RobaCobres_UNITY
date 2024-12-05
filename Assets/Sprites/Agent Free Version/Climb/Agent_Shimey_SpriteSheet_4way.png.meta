@@ -522,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Agent_Shimey_SpriteSheet_4way_0: -1724415210881226602
+      Agent_Shimey_SpriteSheet_4way_1: -5147697657654656924
+      Agent_Shimey_SpriteSheet_4way_10: 6406892606752808401
+      Agent_Shimey_SpriteSheet_4way_11: -4385838336075166553
+      Agent_Shimey_SpriteSheet_4way_12: -34400454932451733
+      Agent_Shimey_SpriteSheet_4way_13: 8417535769894709113
+      Agent_Shimey_SpriteSheet_4way_14: -8171185305886973617
+      Agent_Shimey_SpriteSheet_4way_15: -1747542926443600527
+      Agent_Shimey_SpriteSheet_4way_2: 1480384823387094312
+      Agent_Shimey_SpriteSheet_4way_3: -3607252588235764305
+      Agent_Shimey_SpriteSheet_4way_4: -5832978905651284048
+      Agent_Shimey_SpriteSheet_4way_5: 1953088644788452550
+      Agent_Shimey_SpriteSheet_4way_6: 6425286537418283658
+      Agent_Shimey_SpriteSheet_4way_7: -7767023401777070151
+      Agent_Shimey_SpriteSheet_4way_8: 8100574711478213386
+      Agent_Shimey_SpriteSheet_4way_9: 5345762708427004314
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -522,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Agent_Walk_SpriteSheet_4way_0: 101015737945805964
+      Agent_Walk_SpriteSheet_4way_1: 4552234031907234951
+      Agent_Walk_SpriteSheet_4way_10: -4224436201524378387
+      Agent_Walk_SpriteSheet_4way_11: 8159751847166187910
+      Agent_Walk_SpriteSheet_4way_12: 874065966145645138
+      Agent_Walk_SpriteSheet_4way_13: 3619375793942450377
+      Agent_Walk_SpriteSheet_4way_14: 6274956696204153703
+      Agent_Walk_SpriteSheet_4way_15: 3716120934258293163
+      Agent_Walk_SpriteSheet_4way_2: 5140570313583190967
+      Agent_Walk_SpriteSheet_4way_3: 5655693157779761990
+      Agent_Walk_SpriteSheet_4way_4: -7239857294937147330
+      Agent_Walk_SpriteSheet_4way_5: -7994639954844028585
+      Agent_Walk_SpriteSheet_4way_6: 1292468717925864375
+      Agent_Walk_SpriteSheet_4way_7: 4574949694256503678
+      Agent_Walk_SpriteSheet_4way_8: -4931864420150013450
+      Agent_Walk_SpriteSheet_4way_9: -6827918920994169821
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

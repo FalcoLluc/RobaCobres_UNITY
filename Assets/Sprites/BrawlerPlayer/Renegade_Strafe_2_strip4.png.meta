@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Renegade_Strafe_2_strip4_0: -2468801367825947575
+      Renegade_Strafe_2_strip4_1: 3323540642459519032
+      Renegade_Strafe_2_strip4_2: -6760416209232554500
+      Renegade_Strafe_2_strip4_3: 8112762339329145353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

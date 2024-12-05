@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Renegade_Over_Throw_strip2_0: 8577531558403780847
+      Renegade_Over_Throw_strip2_1: -3600738278675512697
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

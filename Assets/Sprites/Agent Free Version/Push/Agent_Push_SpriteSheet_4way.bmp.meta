@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Agent_Push_SpriteSheet_4way_0: 8127356782237388156
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

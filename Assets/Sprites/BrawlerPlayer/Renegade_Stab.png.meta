@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Renegade_Stab_0: 4366143433478317132
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

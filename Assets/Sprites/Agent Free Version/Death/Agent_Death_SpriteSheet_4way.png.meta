@@ -522,7 +522,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Agent_Death_SpriteSheet_4way_0: -3956516617163989632
+      Agent_Death_SpriteSheet_4way_1: -1179971729188881676
+      Agent_Death_SpriteSheet_4way_10: -2470730118644210094
+      Agent_Death_SpriteSheet_4way_11: -8518590245847442178
+      Agent_Death_SpriteSheet_4way_12: -7817136654876150162
+      Agent_Death_SpriteSheet_4way_13: 4179248623112488072
+      Agent_Death_SpriteSheet_4way_14: -7906815537975229899
+      Agent_Death_SpriteSheet_4way_15: 8852899437142335980
+      Agent_Death_SpriteSheet_4way_2: -2555941702698397169
+      Agent_Death_SpriteSheet_4way_3: -5260352313793208862
+      Agent_Death_SpriteSheet_4way_4: -1250402381138655212
+      Agent_Death_SpriteSheet_4way_5: 1852733937353577843
+      Agent_Death_SpriteSheet_4way_6: -8203009340644415274
+      Agent_Death_SpriteSheet_4way_7: 5365282398906071467
+      Agent_Death_SpriteSheet_4way_8: -416258452489845721
+      Agent_Death_SpriteSheet_4way_9: 1619247648321952322
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
