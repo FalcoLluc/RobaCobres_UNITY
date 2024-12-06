@@ -30,19 +30,6 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder; // Contenedor del tablero
     private List<Vector3> gridPositions = new List<Vector3>(); // Arreglo de posiciones de tiles
 
-    // Método para inicializar la lista de posiciones del tablero
-    void InitialiseList()
-    {
-        gridPositions.Clear();
-        for (int x = 0; x < columns; x++)
-        {
-            for (int y = 0; y < rows; y++)
-            {
-                gridPositions.Add(new Vector3(x, y, 0f));
-            }
-        }
-    }
-
     // Método para cargar el archivo de texto y crear el tablero con formas no cuadradas
     void LoadBoardFromFile(string filePath)
     {
@@ -64,6 +51,9 @@ public class BoardManager : MonoBehaviour
                 columns = line.Length;
             }
         }
+
+        // Invertir el orden de las filas para corregir la orientación de la Y (para que el origen esté en la parte superior)
+        lines.Reverse();
     }
 
     // Método para convertir una letra en un índice de tile
@@ -87,6 +77,8 @@ public class BoardManager : MonoBehaviour
     {
         LoadBoardFromFile("Assets/MapaLayout/BoardLayout.txt"); // Cargamos el archivo .txt
         boardHolder = new GameObject("Board").transform;
+
+        gridPositions.Clear();
 
         // Iteramos sobre las filas y columnas
         for (int y = 0; y < rows; y++) // Primero iteramos sobre las filas
@@ -124,6 +116,12 @@ public class BoardManager : MonoBehaviour
                 // Instanciamos el objeto en la posición (x, y)
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
+
+                //VULL QUE NOMES HI HAGI A GRID POSITIONS els que no siguin Blocking, és a dir, Default
+                if (instance.layer == LayerMask.NameToLayer("Default"))
+                {
+                    gridPositions.Add(new Vector3(x, y, 0f)); // Only add to gridPositions if it's on the "Default" layer
+                }
             }
         }
     }
@@ -154,7 +152,6 @@ public class BoardManager : MonoBehaviour
     public void SetupScene(int level)
     {
         BoardSetup(); // Configura el tablero
-        InitialiseList(); // Inicializa la lista de posiciones
         int enemyCount = (int)Mathf.Log(level, 2f);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount); // Coloca enemigos en el tablero
 

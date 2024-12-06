@@ -56,8 +56,6 @@ MonoBehaviour:
   enemyTiles:
   - {fileID: 3738178845573111761, guid: 9ea3aacc82f9e431ebaec7c4f4e84dd1, type: 3}
   - {fileID: 8897740707354306096, guid: 9a9277eb61df94868a69b118bfcb7191, type: 3}
-  - {fileID: 8761806764847989140, guid: 80c0694848a3f4c2eb012a9366fae1e2, type: 3}
-  - {fileID: 4850317122090990056, guid: f24414656b59148b09a1eeb4b227a99d, type: 3}
 --- !u!114 &4431513298748892965
 MonoBehaviour:
   m_ObjectHideFlags: 0

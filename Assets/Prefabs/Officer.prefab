@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9166290759867853157}
   - component: {fileID: 1051042520617791731}
   - component: {fileID: 4865449482707943634}
+  - component: {fileID: -5788801951295216626}
   m_Layer: 8
   m_Name: Officer
   m_TagString: Enemy
@@ -185,3 +186,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-5788801951295216626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3738178845573111761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d573562195c48edb37a690c2ddf13b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTime: 0.1
+  blockingLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  playerDamage: 20

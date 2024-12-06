@@ -3,3 +3,5 @@ B->BRICK
 C->RAJOLA NEGRA
 D->GRIS PLA
 E->FENCE(bloqueja)
+
+Si volem que es posi default, com si fos el fons del mapa, posem -

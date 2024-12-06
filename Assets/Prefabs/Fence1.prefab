@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4176389144155784135}
   - component: {fileID: 6685827225402152691}
   - component: {fileID: 3045868395986292127}
+  - component: {fileID: 6628209977133532019}
   m_Layer: 8
   m_Name: Fence1
   m_TagString: Untagged
@@ -134,3 +135,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6628209977133532019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841804431682355651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bf70c6ec87f948c79f35c3993cc0c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgSprite: {fileID: 637706654, guid: bb67b0fbea9dc471fa0658398b682d21, type: 3}
+  hp: 4
