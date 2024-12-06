@@ -56,6 +56,7 @@ MonoBehaviour:
   enemyTiles:
   - {fileID: 3738178845573111761, guid: 9ea3aacc82f9e431ebaec7c4f4e84dd1, type: 3}
   - {fileID: 8897740707354306096, guid: 9a9277eb61df94868a69b118bfcb7191, type: 3}
+  player: {fileID: 4850317122090990056, guid: f24414656b59148b09a1eeb4b227a99d, type: 3}
 --- !u!114 &4431513298748892965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,3 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf205d1955b148729aaefb9b4f88448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnDelay: 0.1
+  playerFoodPoints: 100
+  playersTurn: 1

@@ -23,6 +23,8 @@ public class BoardManager : MonoBehaviour
     public GameObject defaultTile;
     public GameObject[] enemyTiles; // Enemigos
 
+    public GameObject player;
+
     private List<string> lines = new List<string>(); // Lista de líneas leídas desde el archivo
     private int rows; // Número de filas (cálculo dinámico)
     private int columns; // Número de columnas (cálculo dinámico)
@@ -157,6 +159,10 @@ public class BoardManager : MonoBehaviour
 
         //ES UNA PROVA NOMES
         Instantiate(cobre, new Vector3(2, 2, 0f), Quaternion.identity);
+
+        //PLAYER:
+        Vector3 randomPosition = RandomPosition();
+        Instantiate(player, randomPosition, Quaternion.identity);
 
     }
 }
