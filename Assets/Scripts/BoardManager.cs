@@ -19,6 +19,7 @@ public class BoardManager : MonoBehaviour
 
     // Definimos las variables del tablero
     public GameObject furgo;
+    public GameObject trainPrefab;
     public GameObject[] tileTypes; // Los tipos de tiles (piso, pared, etc.)
     public GameObject[] cobreTiles; // Lugar donde estará el cobre
     public GameObject defaultTile;
@@ -155,6 +156,7 @@ public class BoardManager : MonoBehaviour
     public void SetupScene(int level)
     {
         BoardSetup(); // Configura el tablero
+
         int enemyCount = (int)Mathf.Log(level, 2f);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount); // Coloca enemigos en el tablero
 
@@ -168,6 +170,9 @@ public class BoardManager : MonoBehaviour
         //posariem la furgo on toca;
         randomPosition = RandomPosition();
         Instantiate(furgo, randomPosition, Quaternion.identity);
+
+        //posariem el tren on toca
+        Instantiate(trainPrefab, new Vector3(1, 5, 0), Quaternion.identity);
 
     }
 }

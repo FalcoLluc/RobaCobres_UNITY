@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   furgo: {fileID: 1324536090797076, guid: 882cb8b807b3f40e69caa66da03319d0, type: 3}
+  trainPrefab: {fileID: 3980704653199381830, guid: c6480b4385d114391831029bb2ea6b9d, type: 3}
   tileTypes:
   - {fileID: 7593247919035581155, guid: 5f6df82149cf9435eb230dcf44096bee, type: 3}
   - {fileID: 3321823401103233893, guid: 1fb2c5dcc5cd14dc98ec3e0f38fa0679, type: 3}

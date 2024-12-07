@@ -64,6 +64,10 @@ public class Player : MovingObject
             //Invoke("Restart", restartLevelDelay);
             //enabled = false;
         }
+        else if (other.tag == "Tren")
+        {
+            GameManager.instance.GameOver();
+        }
         else if (other.tag == "Cobre")
         {
             cobre += pointsPerCobre;

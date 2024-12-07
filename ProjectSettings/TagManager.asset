@@ -8,6 +8,8 @@ TagManager:
   - Cobre
   - CobreRajola
   - Furgo
+  - Tren
+  - Bordes
   layers:
   - Default
   - TransparentFX
