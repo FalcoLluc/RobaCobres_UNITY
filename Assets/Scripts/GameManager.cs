@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
 
     //CAMBIAR DESPRES
-    private int level = 3;
+    private int level = 5;
     private List<Enemy> enemies;
     private bool enemiesMoving;
 

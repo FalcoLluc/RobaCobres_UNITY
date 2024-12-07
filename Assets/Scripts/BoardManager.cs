@@ -152,7 +152,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // Método que configura la escena y coloca enemigos y otros objetos
+    //DESPRES TREURE LO DE LEVEL PK ELS CLIENTS I TOT DEPENDRA DEL TXT, no del int level, idem GameManager
     public void SetupScene(int level)
     {
         BoardSetup(); // Configura el tablero
@@ -163,7 +163,7 @@ public class BoardManager : MonoBehaviour
         //ES UNA PROVA NOMES
         LayoutObjectAtRandom(cobreTiles, 4, 4);
 
-        //PLAYER:
+        //PLAYER: posariem player on toca
         Vector3 randomPosition = RandomPosition();
         Instantiate(player, randomPosition, Quaternion.identity);
 
