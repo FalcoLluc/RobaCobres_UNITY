@@ -4,8 +4,8 @@ using UnityEngine.Rendering;
 public class Player : MovingObject
 {
     public int wallDamage = 1;
-    public int pointsPerFood = 10;
-    public int pointsPerSoda = 20;
+    public int pointsPerCobre = 10;
+    public int pointsPerCobreRajola = 20;
     public float restartLevelDelay = 1f;
 
     private Animator animator;
@@ -66,12 +66,12 @@ public class Player : MovingObject
         }
         else if (other.tag == "Cobre")
         {
-            cobre += pointsPerFood;
+            cobre += pointsPerCobre;
             other.gameObject.SetActive(false);
         }
         else if (other.tag == "CobreRajola")
         {
-            cobre += pointsPerSoda;
+            cobre += pointsPerCobreRajola;
             other.gameObject.SetActive(false);
         }
     }
