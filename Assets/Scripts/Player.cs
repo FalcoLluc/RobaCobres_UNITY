@@ -9,20 +9,20 @@ public class Player : MovingObject
     public float restartLevelDelay = 1f;
 
     private Animator animator;
-    private int food;
+    private int cobre;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         animator = GetComponent<Animator>();
 
-        food = GameManager.instance.playerFoodPoints;
+        cobre = GameManager.instance.playerCobrePoints;
         base.Start();
     }
 
     private void OnDisable()
     {
-        GameManager.instance.playerFoodPoints = food;
+        GameManager.instance.playerCobrePoints = cobre;
     }
 
     // Update is called once per frame
@@ -58,19 +58,20 @@ public class Player : MovingObject
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Exit")
+        if (other.tag == "Furgo")
         {
-            Invoke("Restart", restartLevelDelay);
-            enabled = false;
+            //FER COSES FURGO
+            //Invoke("Restart", restartLevelDelay);
+            //enabled = false;
         }
-        else if (other.tag == "Food")
+        else if (other.tag == "Cobre")
         {
-            food += pointsPerFood;
+            cobre += pointsPerFood;
             other.gameObject.SetActive(false);
         }
-        else if (other.tag == "Soda")
+        else if (other.tag == "CobreRajola")
         {
-            food += pointsPerSoda;
+            cobre += pointsPerSoda;
             other.gameObject.SetActive(false);
         }
     }
@@ -89,16 +90,18 @@ public class Player : MovingObject
         Application.LoadLevel(Application.loadedLevel);
     }
 
-    public void LoseFood(int loss)
+    public void LoseCobre(int loss)
     {
         animator.SetTrigger("playerHit");
-        food -= loss;
+        cobre -= loss;
         CheckIfGameOver();
     }
 
     private void CheckIfGameOver()
     {
-        if (food <= 0)
+        if (cobre <= 0)
             GameManager.instance.GameOver();
     }
 }
+
+

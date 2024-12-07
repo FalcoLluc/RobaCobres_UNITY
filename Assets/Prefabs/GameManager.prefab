@@ -45,13 +45,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af50dd551446e4578a0e2d0c225daffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  furgo: {fileID: 1324536090797076, guid: 882cb8b807b3f40e69caa66da03319d0, type: 3}
   tileTypes:
   - {fileID: 7593247919035581155, guid: 5f6df82149cf9435eb230dcf44096bee, type: 3}
-  - {fileID: 3864935880012312014, guid: afe2d124686d44cbc809c72354e7de4b, type: 3}
   - {fileID: 3321823401103233893, guid: 1fb2c5dcc5cd14dc98ec3e0f38fa0679, type: 3}
+  - {fileID: 3864935880012312014, guid: afe2d124686d44cbc809c72354e7de4b, type: 3}
   - {fileID: 6750420999169927682, guid: 8be2adcf51eb34ddca32ca82098b3cf7, type: 3}
+  - {fileID: 3897479883560128467, guid: 330d02a3866fb45e380acc4a2aca1688, type: 3}
   - {fileID: 6841804431682355651, guid: 8e073292490d040a28abf56ea9be9604, type: 3}
-  cobre: {fileID: 1665079376390256, guid: 2a620c32ca16b477db8f2d7c4308c6c1, type: 3}
+  cobreTiles:
+  - {fileID: 1665079376390256, guid: 2a620c32ca16b477db8f2d7c4308c6c1, type: 3}
+  - {fileID: 5523361446465918574, guid: dab21449921374c99add368b667bbe57, type: 3}
   defaultTile: {fileID: 6681590592618979283, guid: 2eb4c5685445a425c801b6839eef2cc7, type: 3}
   enemyTiles:
   - {fileID: 3738178845573111761, guid: 9ea3aacc82f9e431ebaec7c4f4e84dd1, type: 3}
@@ -70,5 +74,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnDelay: 0.1
-  playerFoodPoints: 100
+  playerCobrePoints: 100
   playersTurn: 1

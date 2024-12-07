@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Food
   - Enemy
   - Cobre
+  - CobreRajola
+  - Furgo
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using System.IO;
-using System.Collections.Generic;
 using System.Collections;
 
 
@@ -12,7 +11,7 @@ public class GameManager : MonoBehaviour
     public float turnDelay = .1f;
     public static GameManager instance = null;
     private BoardManager boardScript;
-    public int playerFoodPoints = 100;
+    public int playerCobrePoints = 100;
     [HideInInspector] public bool playersTurn = true;
 
 
@@ -76,3 +75,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
+

@@ -18,8 +18,9 @@ public class BoardManager : MonoBehaviour
     }
 
     // Definimos las variables del tablero
+    public GameObject furgo;
     public GameObject[] tileTypes; // Los tipos de tiles (piso, pared, etc.)
-    public GameObject cobre; // Lugar donde estará el cobre
+    public GameObject[] cobreTiles; // Lugar donde estará el cobre
     public GameObject defaultTile;
     public GameObject[] enemyTiles; // Enemigos
 
@@ -158,11 +159,15 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount); // Coloca enemigos en el tablero
 
         //ES UNA PROVA NOMES
-        Instantiate(cobre, new Vector3(2, 2, 0f), Quaternion.identity);
+        LayoutObjectAtRandom(cobreTiles, 4, 4);
 
         //PLAYER:
         Vector3 randomPosition = RandomPosition();
         Instantiate(player, randomPosition, Quaternion.identity);
+
+        //posariem la furgo on toca;
+        randomPosition = RandomPosition();
+        Instantiate(furgo, randomPosition, Quaternion.identity);
 
     }
 }
