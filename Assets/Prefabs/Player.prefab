@@ -157,7 +157,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.0001, y: 0.0001}
+  m_Size: {x: 0.3, y: 0.0001}
   m_EdgeRadius: 0
 --- !u!50 &8777883190961926582
 Rigidbody2D:
@@ -203,6 +203,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   wallDamage: 1
-  pointsPerFood: 10
-  pointsPerSoda: 20
+  pointsPerCobre: 10
+  pointsPerCobreRajola: 20
   restartLevelDelay: 1

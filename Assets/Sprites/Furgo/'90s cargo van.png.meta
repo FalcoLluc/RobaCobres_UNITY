@@ -197,7 +197,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      '''90s cargo van_0': -4433049802149620165
+      '''90s cargo van_1': -5984461725846053186
+      '''90s cargo van_2': 8059491295044801005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
