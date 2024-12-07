@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+
 
 public class Player : MovingObject
 {
@@ -56,6 +58,7 @@ public class Player : MovingObject
         GameManager.instance.playersTurn = false;
     }
 
+    //hauran de tenir lo de trigger activat
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Furgo")
@@ -67,6 +70,7 @@ public class Player : MovingObject
         else if (other.tag == "Tren")
         {
             GameManager.instance.GameOver();
+            Debug.Log("Game Over Atropellado");
         }
         else if (other.tag == "Cobre")
         {
@@ -91,7 +95,7 @@ public class Player : MovingObject
     //Aquesta part igual sobraria pk es de RogueLike
     private void Restart()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoseCobre(int loss)
