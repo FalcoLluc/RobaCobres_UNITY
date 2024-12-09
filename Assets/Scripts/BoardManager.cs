@@ -38,10 +38,14 @@ public class BoardManager : MonoBehaviour
     void LoadBoardFromFile(string filePath)
     {
         lines.Clear();
-        string[] allLines = File.ReadAllLines(filePath);
-
-        // Almacenamos las líneas del archivo en la lista
-        lines.AddRange(allLines);
+        try
+        {
+            lines.AddRange(File.ReadAllLines(filePath));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al cargar el archivo de tablero: " + e.Message);
+        }
 
         // Calculamos el número de filas y columnas (la longitud de cada fila puede ser diferente)
         rows = lines.Count;
@@ -165,7 +169,18 @@ public class BoardManager : MonoBehaviour
 
         //PLAYER: posariem player on toca
         Vector3 randomPosition = RandomPosition();
-        Instantiate(player, randomPosition, Quaternion.identity);
+        // Instanciar el Player
+        GameObject playerInstance = Instantiate(player, randomPosition, Quaternion.identity);
+
+        // Encontrar la cámara principal
+        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+
+        // Asignar el Player instanciado como el objetivo de la cámara
+        if (cameraFollow != null)
+        {
+            cameraFollow.target = playerInstance.transform;
+        }
+
 
         //posariem la furgo on toca;
         randomPosition = RandomPosition();
@@ -176,6 +191,3 @@ public class BoardManager : MonoBehaviour
 
     }
 }
-
-
-
