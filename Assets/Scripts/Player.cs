@@ -10,6 +10,12 @@ public class Player : MovingObject
     public int pointsPerCobreRajola = 20;
     public float restartLevelDelay = 1f;
 
+    //velocidad de movimiento del jugador:
+    private float moveSpeed = 5f;
+
+    // variable per imobilitzar si li pasa un tren per sobre
+    private bool isImmobilized = false;
+
     private Animator animator;
     private int cobre;
 
@@ -30,7 +36,7 @@ public class Player : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.playersTurn) return;
+        if (isImmobilized || !GameManager.instance.playersTurn) return;
 
         int horizontal = 0;
         int vertical = 0;
@@ -42,20 +48,64 @@ public class Player : MovingObject
             vertical = 0;
         if (horizontal != 0 || vertical != 0)
         {
+
             AttemptMove<Wall>(horizontal, vertical);
         }
+        /* Vector2 move = new Vector2(horizontal, vertical).normalized * moveSpeed * Time.deltaTime;
+          transform.Translate(move);
+
+          // Actualizar la animación de movimiento (si es necesario)
+          if (move.magnitude > 0)
+          {
+              animator.SetFloat("moveX", horizontal);
+              animator.SetFloat("moveY", vertical);
+              animator.SetBool("isMoving", true);
+          }
+          else
+          {
+              animator.SetBool("isMoving", false);
+          }*/
     }
 
-    protected override void AttemptMove<T>(int xDir, int yDir)
+    protected override bool AttemptMove<T>(int xDir, int yDir)
     {
-        //food--;
-
-        base.AttemptMove<T>(xDir, yDir);
         RaycastHit2D hit;
+        bool canMove = Move(xDir, yDir, out hit);
 
-        CheckIfGameOver();
+        if (hit.transform == null)
+            return canMove;
 
-        GameManager.instance.playersTurn = false;
+        T hitComponent = hit.transform.GetComponent<T>();
+
+        // Si no se puede mover, se llama a OnCantMove
+        if (!canMove && hitComponent != null)
+        {
+            OnCantMove(hitComponent);
+
+            // Detectamos la dirección de la colisión
+            if (xDir != 0 && yDir == 0)  // Colisión en el eje horizontal (izquierda/derecha)
+            {
+                // Si colisiona horizontalmente, bloqueamos solo el movimiento horizontal.
+                return CanMove(0, yDir);  // Intentar movimiento solo en el eje Y (arriba/abajo)
+            }
+
+            if (xDir == 0 && yDir != 0)  // Colisión en el eje vertical (arriba/abajo)
+            {
+                // Si colisiona verticalmente, bloqueamos solo el movimiento vertical.
+                return CanMove(xDir, 0);  // Intentar movimiento solo en el eje X (izquierda/derecha)
+            }
+        }
+
+        return canMove;
+
+        //food--;
+        /*
+                base.AttemptMove<T>(xDir, yDir);
+                RaycastHit2D hit;
+
+                CheckIfGameOver();
+
+                GameManager.instance.playersTurn = false;*/
     }
 
     //hauran de tenir lo de trigger activat
@@ -69,6 +119,7 @@ public class Player : MovingObject
         }
         else if (other.tag == "Tren")
         {
+            isImmobilized = true;
             GameManager.instance.GameOver();
             animator.SetTrigger("playerDead");
             Debug.Log("Game Over Atropellado");
@@ -112,5 +163,4 @@ public class Player : MovingObject
             GameManager.instance.GameOver();
     }
 }
-
 

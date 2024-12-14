@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class MovingObject : MonoBehaviour
 {
 
-    public float moveTime = 0.3f;
+    public float moveTime = 0.1f;
     public LayerMask blockingLayer;
 
-    private BoxCollider2D boxCollider;
+    protected BoxCollider2D boxCollider;
     private Rigidbody2D rb2d;
     private float inverseMoveTime;
 
@@ -31,12 +31,7 @@ public abstract class MovingObject : MonoBehaviour
         hit = Physics2D.Linecast(start, end, blockingLayer);
         boxCollider.enabled = true;
 
-        if (hit.transform == null || hit.transform.gameObject.tag == "Player")
-        {
-            return true;
-        }
-
-        return false;
+        return hit.transform == null || hit.transform.CompareTag("Player");
     }
 
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
@@ -78,14 +73,14 @@ public abstract class MovingObject : MonoBehaviour
     }
 
 
-    protected virtual void AttemptMove<T>(int xDir, int yDir) where T : Component
+    protected virtual bool AttemptMove<T>(int xDir, int yDir) where T : Component
     {
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
 
         if (hit.transform == null)
         {
-            return;
+            return true;
         }
 
         T hitComponent = hit.transform.GetComponent<T>();
@@ -94,6 +89,8 @@ public abstract class MovingObject : MonoBehaviour
         {
             OnCantMove(hitComponent);
         }
+
+        return false;
     }
 
     protected abstract void OnCantMove<T>(T component) where T : Component;
