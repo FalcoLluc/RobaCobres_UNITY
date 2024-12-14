@@ -70,6 +70,7 @@ public class Player : MovingObject
         else if (other.tag == "Tren")
         {
             GameManager.instance.GameOver();
+            animator.SetTrigger("playerDead");
             Debug.Log("Game Over Atropellado");
         }
         else if (other.tag == "Cobre")

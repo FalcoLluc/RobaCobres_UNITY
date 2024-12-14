@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class MovingObject : MonoBehaviour
 {
 
-    public float moveTime = 0.1f;
+    public float moveTime = 0.3f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
@@ -69,7 +69,14 @@ public abstract class MovingObject : MonoBehaviour
             yield return null;
         }
 
+        // CHAPUZA PER FER QUE NOMES ES CRIDI SI ES PLAYER, CANVIAR DESPRÉS, NO ACABA DE FUNCIONAR, deixar com push si eso
+        if (this is Player)
+        {
+            GameManager.instance.playersTurn = true;
+        }
+
     }
+
 
     protected virtual void AttemptMove<T>(int xDir, int yDir) where T : Component
     {

@@ -8,10 +8,15 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public float turnDelay = .1f;
+    //delay moviment enemics
+    public float turnDelay = .2f;
     public static GameManager instance = null;
     private BoardManager boardScript;
     public int playerCobrePoints = 100;
+
+
+
+    //despres cambio quan player tingui mecanica que toca
     [HideInInspector] public bool playersTurn = true;
 
 
@@ -40,12 +45,13 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        playersTurn = false;
         enabled = false;
     }
 
     void Update()
     {
-        if (playersTurn || enemiesMoving)
+        if (enemiesMoving)
             return;
         StartCoroutine(MoveEnemies());
     }
@@ -69,8 +75,6 @@ public class GameManager : MonoBehaviour
             enemies[i].MoveEnemy();
             yield return new WaitForSeconds(enemies[i].moveTime);
         }
-
-        playersTurn = true;
         enemiesMoving = false;
     }
 
