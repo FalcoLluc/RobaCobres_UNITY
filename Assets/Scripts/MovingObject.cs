@@ -63,13 +63,6 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;
         }
-
-        // CHAPUZA PER FER QUE NOMES ES CRIDI SI ES PLAYER, CANVIAR DESPRÉS, NO ACABA DE FUNCIONAR, deixar com push si eso
-        if (this is Player)
-        {
-            GameManager.instance.playersTurn = true;
-        }
-
     }
 
 

@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour
     // Definimos las variables del tablero
     public GameObject furgo;
     public GameObject trainPrefab;
+    public GameObject wallPrefab;
     public GameObject[] tileTypes; // Los tipos de tiles (piso, pared, etc.)
     public GameObject[] cobreTiles; // Lugar donde estará el cobre
     public GameObject defaultTile;
@@ -28,6 +29,7 @@ public class BoardManager : MonoBehaviour
     public GameObject player;
 
     private List<string> lines = new List<string>(); // Lista de líneas leídas desde el archivo
+    private List<string> linesItems = new List<string>(); // Lista de líneas items, player...
     private int rows; // Número de filas (cálculo dinámico)
     private int columns; // Número de columnas (cálculo dinámico)
 
@@ -50,7 +52,6 @@ public class BoardManager : MonoBehaviour
         // Calculamos el número de filas y columnas (la longitud de cada fila puede ser diferente)
         rows = lines.Count;
         columns = lines[0].Length;
-
         // Si las demás líneas tienen diferente longitud, ajustamos las columnas al máximo
         foreach (var line in lines)
         {
@@ -62,6 +63,21 @@ public class BoardManager : MonoBehaviour
 
         // Invertir el orden de las filas para corregir la orientación de la Y (para que el origen esté en la parte superior)
         lines.Reverse();
+    }
+
+    // Método para cargar el archivo de objetos
+    void LoadItemsFromFile(string filePath)
+    {
+        linesItems.Clear();
+        try
+        {
+            linesItems.AddRange(File.ReadAllLines(filePath));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al cargar el archivo de objetos: " + e.Message);
+        }
+        linesItems.Reverse();
     }
 
     // Método para convertir una letra en un índice de tile
@@ -86,9 +102,11 @@ public class BoardManager : MonoBehaviour
         LoadBoardFromFile("Assets/MapaLayout/BoardLayout.txt"); // Cargamos el archivo .txt
         boardHolder = new GameObject("Board").transform;
 
+        LoadItemsFromFile("Assets/MapaLayout/ItemsLayout.txt");
+
         gridPositions.Clear();
 
-        // Iteramos sobre las filas y columnas
+        // PART TILES
         for (int y = 0; y < rows; y++) // Primero iteramos sobre las filas
         {
             for (int x = 0; x < columns; x++) // Después sobre las columnas
@@ -132,6 +150,45 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+
+        //PART ITEMS, ENEMICS
+        for (int y = 0; y < linesItems.Count; y++) // Iteramos sobre las filas de items
+        {
+            for (int x = 0; x < linesItems[y].Length; x++) // Iteramos sobre las columnas
+            {
+                char itemChar = linesItems[y][x]; // Obtenemos el carácter en la posición (x, y)
+
+                switch (itemChar)
+                {
+                    case 'P':
+                        {
+                            GameObject playerInstance = Instantiate(player, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el jugador                                    // Encontrar la cámara principal
+                            CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+                            if (cameraFollow != null)
+                            {
+                                cameraFollow.target = playerInstance.transform;
+                            }
+                            break;
+                        }
+                    case 'E':
+                        Instantiate(enemyTiles[UnityEngine.Random.Range(0, enemyTiles.Length)], new Vector3(x, y, 0f), Quaternion.identity); // Instancia un enemigo
+                        break;
+                    case 'C':
+                        Instantiate(cobreTiles[UnityEngine.Random.Range(0, cobreTiles.Length)], new Vector3(x, y, 0f), Quaternion.identity); // Instancia el cobre
+                        break;
+                    case 'F':
+                        Instantiate(furgo, new Vector3(x, y, 0f), Quaternion.identity); // Instancia la furgo
+                        break;
+                    case 'T':
+                        Instantiate(trainPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el tren
+                        break;
+                    case 'W':
+                        Instantiate(wallPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el wall
+                        break;
+
+                }
+            }
+        }
     }
 
 
@@ -160,26 +217,13 @@ public class BoardManager : MonoBehaviour
     public void SetupScene(int level)
     {
         BoardSetup(); // Configura el tablero
-
-        int enemyCount = (int)Mathf.Log(level, 2f);
-        LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount); // Coloca enemigos en el tablero
-
-        //ES UNA PROVA NOMES
-        LayoutObjectAtRandom(cobreTiles, 4, 4);
-
+        /*
         //PLAYER: posariem player on toca
         Vector3 randomPosition = RandomPosition();
         // Instanciar el Player
         GameObject playerInstance = Instantiate(player, randomPosition, Quaternion.identity);
 
-        // Encontrar la cámara principal
-        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
-        // Asignar el Player instanciado como el objetivo de la cámara
-        if (cameraFollow != null)
-        {
-            cameraFollow.target = playerInstance.transform;
-        }
 
 
         //posariem la furgo on toca;
@@ -188,6 +232,6 @@ public class BoardManager : MonoBehaviour
 
         //posariem el tren on toca
         Instantiate(trainPrefab, new Vector3(1, 5, 0), Quaternion.identity);
-
+        */
     }
 }

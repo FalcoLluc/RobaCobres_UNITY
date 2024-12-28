@@ -10,6 +10,7 @@ TagManager:
   - Furgo
   - Tren
   - Bordes
+  - Fence
   layers:
   - Default
   - TransparentFX

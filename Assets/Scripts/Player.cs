@@ -1,114 +1,87 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
-
-public class Player : MovingObject
+public class Player : MonoBehaviour
 {
     public int wallDamage = 1;
     public int pointsPerCobre = 10;
     public int pointsPerCobreRajola = 20;
     public float restartLevelDelay = 1f;
 
-    //velocidad de movimiento del jugador:
-    private float moveSpeed = 5f;
-
-    // variable per imobilitzar si li pasa un tren per sobre
+    private int cobre;
+    public float moveSpeed = 5f;
+    private Rigidbody2D rb;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer; // To control sprite flipping
     private bool isImmobilized = false;
 
-    private Animator animator;
-    private int cobre;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected override void Start()
+    void Start()
     {
         animator = GetComponent<Animator>();
-
-        cobre = GameManager.instance.playerCobrePoints;
-        base.Start();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
     }
 
-    private void OnDisable()
-    {
-        GameManager.instance.playerCobrePoints = cobre;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (isImmobilized || !GameManager.instance.playersTurn) return;
+        if (isImmobilized)
+            return;
 
-        int horizontal = 0;
-        int vertical = 0;
+        // Handle movement input
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        horizontal = (int)Input.GetAxisRaw("Horizontal");
-        vertical = (int)Input.GetAxisRaw("Vertical");
+        Vector2 movement = new Vector2(horizontal, vertical).normalized;
 
-        if (horizontal != 0)
-            vertical = 0;
-        if (horizontal != 0 || vertical != 0)
+        // Apply movement to Rigidbody2D
+        rb.linearVelocity = movement * moveSpeed;
+
+        // Flip the sprite based on movement direction
+        if (horizontal < 0) // Moving left
         {
-
-            AttemptMove<Wall>(horizontal, vertical);
+            spriteRenderer.flipX = true;
         }
-        /* Vector2 move = new Vector2(horizontal, vertical).normalized * moveSpeed * Time.deltaTime;
-          transform.Translate(move);
+        else if (horizontal > 0) // Moving right
+        {
+            spriteRenderer.flipX = false;
+        }
 
-          // Actualizar la animaci�n de movimiento (si es necesario)
-          if (move.magnitude > 0)
-          {
-              animator.SetFloat("moveX", horizontal);
-              animator.SetFloat("moveY", vertical);
-              animator.SetBool("isMoving", true);
-          }
-          else
-          {
-              animator.SetBool("isMoving", false);
-          }*/
+        // Update animations
+        if (movement.magnitude > 0)
+        {
+            //animator.SetFloat("moveX", horizontal);
+            //animator.SetFloat("moveY", vertical);
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
     }
 
-    protected override bool AttemptMove<T>(int xDir, int yDir)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        RaycastHit2D hit;
-        bool canMove = Move(xDir, yDir, out hit);
-
-        if (hit.transform == null)
-            return canMove;
-
-        T hitComponent = hit.transform.GetComponent<T>();
-
-        // Si no se puede mover, se llama a OnCantMove
-        if (!canMove && hitComponent != null)
+        if (collision.gameObject.tag == "Fence")
         {
-            OnCantMove(hitComponent);
-
-            // Detectamos la direcci�n de la colisi�n
-            if (xDir != 0 && yDir == 0)  // Colisi�n en el eje horizontal (izquierda/derecha)
+            // Si el objeto es una "Fence", ejecuta la lógica para dañarla
+            Wall hitFence = collision.gameObject.GetComponent<Wall>();
+            if (hitFence != null)
             {
-                // Si colisiona horizontalmente, bloqueamos solo el movimiento horizontal.
-                return CanMove(0, yDir);  // Intentar movimiento solo en el eje Y (arriba/abajo)
+                hitFence.DamageWall(wallDamage); // Daño a la Fence
+                animator.SetTrigger("playerChop"); // Activar animación de corte
             }
 
-            if (xDir == 0 && yDir != 0)  // Colisi�n en el eje vertical (arriba/abajo)
-            {
-                // Si colisiona verticalmente, bloqueamos solo el movimiento vertical.
-                return CanMove(xDir, 0);  // Intentar movimiento solo en el eje X (izquierda/derecha)
-            }
+            // Detener el movimiento después de la colisión
+            rb.linearVelocity = Vector2.zero;
         }
-
-        return canMove;
-
-        //food--;
-        /*
-                base.AttemptMove<T>(xDir, yDir);
-                RaycastHit2D hit;
-
-                CheckIfGameOver();
-
-                GameManager.instance.playersTurn = false;*/
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("BlockingLayer"))
+        {
+            Debug.Log("Collided with an object in BlockingLayer.");
+            rb.linearVelocity = Vector2.zero; // Stop player when hitting a wall
+        }
     }
 
-    //hauran de tenir lo de trigger activat
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Furgo")
@@ -120,6 +93,7 @@ public class Player : MovingObject
         else if (other.tag == "Tren")
         {
             isImmobilized = true;
+            rb.linearVelocity = Vector2.zero;
             GameManager.instance.GameOver();
             animator.SetTrigger("playerDead");
             Debug.Log("Game Over Atropellado");
@@ -135,14 +109,6 @@ public class Player : MovingObject
             other.gameObject.SetActive(false);
         }
     }
-
-    protected override void OnCantMove<T>(T component)
-    {
-        Wall hitWall = component as Wall;
-        hitWall.DamageWall(wallDamage);
-        animator.SetTrigger("playerChop");
-    }
-
 
     //Aquesta part igual sobraria pk es de RogueLike
     private void Restart()
@@ -163,4 +129,6 @@ public class Player : MovingObject
             GameManager.instance.GameOver();
     }
 }
+
+
 
