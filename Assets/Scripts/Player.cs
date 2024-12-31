@@ -119,6 +119,7 @@ public class Player : MonoBehaviour
     public void LoseCobre(int loss)
     {
         animator.SetTrigger("playerHit");
+        Debug.Log("Hit.");
         cobre -= loss;
         CheckIfGameOver();
     }
@@ -126,7 +127,13 @@ public class Player : MonoBehaviour
     private void CheckIfGameOver()
     {
         if (cobre <= 0)
+        {
+            isImmobilized = true;
+            rb.linearVelocity = Vector2.zero;
             GameManager.instance.GameOver();
+            animator.SetTrigger("playerDead");
+            Debug.Log("Game Over Paliza");
+        }
     }
 }
 

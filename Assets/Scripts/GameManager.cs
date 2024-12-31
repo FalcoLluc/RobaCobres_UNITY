@@ -9,21 +9,24 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     //delay moviment enemics
-    public float turnDelay = .2f;
+    //public float turnDelay = .2f;
     public static GameManager instance = null;
     private BoardManager boardScript;
+
+
     public int playerCobrePoints = 100;
 
 
 
     //despres cambio quan player tingui mecanica que toca
-    [HideInInspector] public bool playersTurn = true;
+    //[HideInInspector] public bool playersTurn = true;
 
 
     //CAMBIAR DESPRES
     private int level = 5;
     private List<Enemy> enemies;
-    private bool enemiesMoving;
+    private bool isGameOver = false; // Nuevo estado para Game Over
+    //private bool enemiesMoving;
 
     void Awake()
     {
@@ -41,19 +44,22 @@ public class GameManager : MonoBehaviour
     {
         enemies.Clear();
         boardScript.SetupScene(level);
+        isGameOver = false;
     }
 
     public void GameOver()
     {
-        playersTurn = false;
-        enabled = false;
-    }
+        if (isGameOver) return; // Evita llamadas duplicadas a GameOver
 
-    void Update()
-    {
-        if (enemiesMoving)
-            return;
-        StartCoroutine(MoveEnemies());
+        isGameOver = true;
+        Debug.Log("Game Over!");
+
+        // Detener la lógica adicional si el juego ha terminado
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null)
+                enemy.StopEnemy();
+        }
     }
 
     public void AddEnemyToList(Enemy script)
@@ -61,22 +67,26 @@ public class GameManager : MonoBehaviour
         enemies.Add(script);
     }
 
-    IEnumerator MoveEnemies()
+    public void RemoveEnemy(Enemy script)
     {
-        enemiesMoving = true;
-        yield return new WaitForSeconds(turnDelay);
-        if (enemies.Count == 0)
-        {
-            yield return new WaitForSeconds(turnDelay);
-        }
-
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            enemies[i].MoveEnemy();
-            yield return new WaitForSeconds(enemies[i].moveTime);
-        }
-        enemiesMoving = false;
+        if (enemies.Contains(script))
+            enemies.Remove(script);
     }
+    void Update()
+    {
+        {
+            // Puedes agregar lógica global para los enemigos aquí si es necesario.
+            if (enemies.Count == 0)
+                return;
 
+            foreach (var enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    enemy.MoveEnemy();
+                }
+            }
+        }
+    }
 }
 
