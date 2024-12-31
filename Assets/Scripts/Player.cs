@@ -26,7 +26,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (isImmobilized)
+        {
+            rb.linearVelocity = Vector2.zero; // Asegurar que no hay movimiento residual
             return;
+        }
 
         // Handle movement input
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -94,6 +97,7 @@ public class Player : MonoBehaviour
         {
             isImmobilized = true;
             rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true;
             GameManager.instance.GameOver();
             animator.SetTrigger("playerDead");
             Debug.Log("Game Over Atropellado");
@@ -130,6 +134,7 @@ public class Player : MonoBehaviour
         {
             isImmobilized = true;
             rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true;
             GameManager.instance.GameOver();
             animator.SetTrigger("playerDead");
             Debug.Log("Game Over Paliza");

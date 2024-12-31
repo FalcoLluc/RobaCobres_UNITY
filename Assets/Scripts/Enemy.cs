@@ -3,55 +3,50 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int playerDamage;
-    public float speed = 2.0f; // velocitat del enemic
-    public float attackCooldown = 1.0f; // temps d'espera dsprs d'atacar
+    public float speed = 2.0f; // Velocidad del enemigo
+    public float attackCooldown = 1.0f; // Tiempo de espera después de atacar
 
     private Animator animator;
     private Transform target;
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb; // Para controlar el movimiento
+    private bool isAttacking = false; // Para detener el movimiento
+    private float attackTimer = 0f; // Temporizador para reanudar el movimiento
+    private bool isBlocked = false; // Para saber si está bloqueado por un obstáculo
+    private bool isGameOver = false; // Para saber si el juego ha terminado
+
+    public float detectionDistance = 5f; // Distancia para detectar obstáculos
+    public LayerMask wallLayer;
 
 
-    private Rigidbody2D rb; // s'utilitza per controlar el moviment
-    private bool isAttacking = false; // Nueva variable para detener el movimiento
-    private float attackTimer = 0f; // temporitzador per moure dsprs d'atacar
-    private bool isBlocked = false; // s'activa si colisiona amb pared
-
-
-    private bool isGameOver = false; // Estat per controlar si el joc ha acabat
-    
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // assigna el sprite renderer
-        rb = GetComponent<Rigidbody2D>(); // Obt� Rigidbody2D
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         GameManager.instance.AddEnemyToList(this);
-        // base.Start();
+        //rb.sharedMaterial.friction = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isAttacking)
         {
-            // Temporizador para reanudar el movimiento
             attackTimer -= Time.deltaTime;
             if (attackTimer <= 0f)
             {
-                isAttacking = false; // Reanudar movimiento
-                isBlocked = false; // no esta bloquejat
+                isAttacking = false;
+                isBlocked = false;
                 animator.SetBool("isBlocked", false);
             }
         }
         else if (isGameOver)
         {
-            isAttacking = false; // Reanudar movimiento
+            isAttacking = false;
             isBlocked = true;
             animator.SetBool("isBlocked", true);
-            rb.linearVelocity = Vector2.zero; // Detener el movimiento físicamente
+            rb.linearVelocity = Vector2.zero; // Detener el movimiento
         }
         else
         {
@@ -59,26 +54,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
     public void MoveEnemy()
     {
-        /*if (target != null)
+        if (target == null || rb == null || isBlocked) return;
+
+        // Raycast para detectar si hay un obstáculo entre el enemigo y el jugador
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (target.position - transform.position).normalized, detectionDistance, wallLayer);
+        if (hit.collider != null)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }*/
-       if (target == null || rb == null || isBlocked) return;
+            AvoidObstacle(); // Si detecta un obstáculo, evadirlo
+        }
+        else
+        {
+            float moveSpeed = isAttacking ? speed * 0.5f : speed;
 
-        float moveSpeed = isAttacking ? speed * 0.5f : speed;
-        // Movimiento hacia el jugador
-        Vector2 newPosition = Vector2.MoveTowards(
-            rb.position,
-            target.position,
-            moveSpeed * Time.deltaTime
-        );
+            // Movimiento hacia el jugador
+            Vector2 newPosition = Vector2.MoveTowards(rb.position, target.position, moveSpeed * Time.deltaTime);
+            rb.MovePosition(newPosition);
+        }
 
-        rb.MovePosition(newPosition);
-       
-        // Animaci�n o direcci�n del sprite
+        // Animación o dirección del sprite
         if (target.position.x < transform.position.x)
         {
             spriteRenderer.flipX = false;
@@ -87,9 +82,7 @@ public class Enemy : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         }
-
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -100,27 +93,90 @@ public class Enemy : MonoBehaviour
             {
                 animator.SetTrigger("enemyAttack");
                 hitPlayer.LoseCobre(playerDamage);
-                isAttacking = true; // Detener el movimiento despu�s del ataque
-                attackTimer = attackCooldown; // activa el temportzador
+                isAttacking = true;
+                attackTimer = attackCooldown;
             }
-
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("BlockingLayer"))
+        /*else if (collision.gameObject.layer == LayerMask.NameToLayer("BlockingLayer"))
         {
-            Debug.Log("Enemy blocked by a wall.");
             isBlocked = true; // Bloquear el movimiento temporalmente
             attackTimer = attackCooldown; // Usar cooldown para desbloquear
             animator.SetBool("isBlocked", true);
-        }
+        }*/
     }
+
     private void OnDestroy()
     {
-        GameManager.instance.RemoveEnemy(this); // Eliminar de la lista si es destruido
+        GameManager.instance.RemoveEnemy(this);
     }
+
     public void StopEnemy()
     {
         isGameOver = true;
         rb.linearVelocity = Vector2.zero; // Detener físicamente el movimiento
-        //animator.enabled = false; // Desactivar animaciones
+        rb.isKinematic = true; // Evitar que las físicas afecten al enemigo
+    }
+
+    // Método modificado para evadir obstáculos
+    private void AvoidObstacle()
+    {
+        // Direcciones de 90 grados (izquierda, derecha, arriba, abajo)
+        Vector2 directionToPlayer = (target.position - transform.position).normalized;
+        Vector2 rightDirection = new Vector2(directionToPlayer.y, -directionToPlayer.x); // +90 grados
+        Vector2 leftDirection = new Vector2(-directionToPlayer.y, directionToPlayer.x); // -90 grados
+        Vector2 upDirection = directionToPlayer; // 0 grados (arriba)
+        Vector2 downDirection = new Vector2(-directionToPlayer.x, -directionToPlayer.y); // 180 grados (abajo)
+
+        // Raycasts a las 4 direcciones
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, rightDirection, detectionDistance, wallLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, leftDirection, detectionDistance, wallLayer);
+        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, upDirection, detectionDistance, wallLayer);
+        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, downDirection, detectionDistance, wallLayer);
+
+        // visualizamos raycasts
+        Debug.DrawRay(transform.position, (target.position - transform.position).normalized * detectionDistance, Color.red);
+        Debug.DrawRay(transform.position, rightDirection * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, leftDirection * detectionDistance, Color.blue);
+        Debug.DrawRay(transform.position, upDirection * detectionDistance, Color.yellow);
+        Debug.DrawRay(transform.position, downDirection * detectionDistance, Color.magenta);
+
+
+        // Comprobamos si las direcciones tienen obstáculos
+        bool isBlockedRight = hitRight.collider != null;
+        bool isBlockedLeft = hitLeft.collider != null;
+        bool isBlockedUp = hitUp.collider != null;
+        bool isBlockedDown = hitDown.collider != null;
+
+        // Si todas las direcciones están bloqueadas, no nos movemos
+        if (isBlockedRight && isBlockedLeft && isBlockedUp && isBlockedDown)
+        {
+            rb.linearVelocity = Vector2.zero; // Detener el movimiento
+            animator.SetBool("isBlocked", true); // Activar animación de bloqueo
+        }
+        else
+        {
+            // Elegir la dirección sin obstáculo
+            if (!isBlockedRight)
+            {
+                rb.linearVelocity = rightDirection * speed; // Mover hacia la derecha
+                animator.SetBool("isBlocked", false);
+            }
+            else if (!isBlockedLeft)
+            {
+                rb.linearVelocity = leftDirection * speed; // Mover hacia la izquierda
+                animator.SetBool("isBlocked", false);
+            }
+            else if (!isBlockedUp)
+            {
+                rb.linearVelocity = upDirection * speed * 10; // Mover hacia arriba
+                animator.SetBool("isBlocked", false);
+            }
+            else if (!isBlockedDown)
+            {
+                rb.linearVelocity = downDirection * speed *10; // Mover hacia abajo
+                animator.SetBool("isBlocked", false);
+            }
+        }
     }
 }
+
