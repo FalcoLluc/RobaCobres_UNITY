@@ -38,14 +38,14 @@ public class Enemy : MonoBehaviour
             {
                 isAttacking = false;
                 isBlocked = false;
-                animator.SetBool("isBlocked", false);
+                //animator.SetBool("isBlocked", false);
             }
         }
         else if (isGameOver)
         {
             isAttacking = false;
             isBlocked = true;
-            animator.SetBool("isBlocked", true);
+            //animator.SetBool("isBlocked", true);
             rb.linearVelocity = Vector2.zero; // Detener el movimiento
         }
         else
@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour
     {
         isGameOver = true;
         rb.linearVelocity = Vector2.zero; // Detener físicamente el movimiento
-        rb.isKinematic = true; // Evitar que las físicas afecten al enemigo
+        rb.bodyType = RigidbodyType2D.Kinematic;  // Evitar que las físicas afecten al enemigo
     }
 
     // Método modificado para evadir obstáculos
@@ -151,7 +151,7 @@ public class Enemy : MonoBehaviour
         if (isBlockedRight && isBlockedLeft && isBlockedUp && isBlockedDown)
         {
             rb.linearVelocity = Vector2.zero; // Detener el movimiento
-            animator.SetBool("isBlocked", true); // Activar animación de bloqueo
+            //animator.SetBool("isBlocked", true); // Activar animación de bloqueo
         }
         else
         {
@@ -159,22 +159,22 @@ public class Enemy : MonoBehaviour
             if (!isBlockedRight)
             {
                 rb.linearVelocity = rightDirection * speed; // Mover hacia la derecha
-                animator.SetBool("isBlocked", false);
+                //animator.SetBool("isBlocked", false);
             }
             else if (!isBlockedLeft)
             {
                 rb.linearVelocity = leftDirection * speed; // Mover hacia la izquierda
-                animator.SetBool("isBlocked", false);
+                //animator.SetBool("isBlocked", false);
             }
             else if (!isBlockedUp)
             {
                 rb.linearVelocity = upDirection * speed * 10; // Mover hacia arriba
-                animator.SetBool("isBlocked", false);
+                //animator.SetBool("isBlocked", false);
             }
             else if (!isBlockedDown)
             {
-                rb.linearVelocity = downDirection * speed *10; // Mover hacia abajo
-                animator.SetBool("isBlocked", false);
+                rb.linearVelocity = downDirection * speed * 10; // Mover hacia abajo
+                //animator.SetBool("isBlocked", false);
             }
         }
     }

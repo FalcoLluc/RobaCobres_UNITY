@@ -40,9 +40,10 @@ public class BoardManager : MonoBehaviour
     void LoadBoardFromFile(string filePath)
     {
         lines.Clear();
+        TextAsset boardData = Resources.Load<TextAsset>(filePath);
         try
         {
-            lines.AddRange(File.ReadAllLines(filePath));
+            lines.AddRange(boardData.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None));
         }
         catch (Exception e)
         {
@@ -69,9 +70,10 @@ public class BoardManager : MonoBehaviour
     void LoadItemsFromFile(string filePath)
     {
         linesItems.Clear();
+        TextAsset boardData = Resources.Load<TextAsset>(filePath);
         try
         {
-            linesItems.AddRange(File.ReadAllLines(filePath));
+            linesItems.AddRange(boardData.text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None));
         }
         catch (Exception e)
         {
@@ -99,11 +101,9 @@ public class BoardManager : MonoBehaviour
 
     void BoardSetup()
     {
-        LoadBoardFromFile("Assets/MapaLayout/BoardLayout.txt"); // Cargamos el archivo .txt
+        LoadBoardFromFile("MapaLayout/BoardLayout");
+        LoadItemsFromFile("MapaLayout/ItemsLayout");
         boardHolder = new GameObject("Board").transform;
-
-        LoadItemsFromFile("Assets/MapaLayout/ItemsLayout.txt");
-
         gridPositions.Clear();
 
         // PART TILES

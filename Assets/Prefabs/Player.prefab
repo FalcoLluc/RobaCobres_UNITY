@@ -203,3 +203,9 @@ MonoBehaviour:
   pointsPerCobreRajola: 20
   restartLevelDelay: 1
   moveSpeed: 5
+  joystickBackground: {fileID: 0}
+  joystickHandle: {fileID: 0}
+  joystickRadius: 50
+  moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
+  moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
+  gameOverSound: {fileID: 8300000, guid: e2beefeb2273f4efe992adf5b8d67c29, type: 3}

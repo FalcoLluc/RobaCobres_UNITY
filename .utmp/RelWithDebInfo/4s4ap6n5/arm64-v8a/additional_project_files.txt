@@ -1,0 +1,1 @@
+/Users/falksmusic/Documents/4AEROTELECOM/QUADRI1/DSA/UNITY/RobaCobres_UNITY/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing/UnitySwappyWrapper.h
