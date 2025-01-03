@@ -32,5 +32,24 @@ public class UnityToAndroidBridge : MonoBehaviour
         Debug.Log("Received response from server: " + response);
         messageText.text = response;
     }
+
+    // EXIT
+    public void CloseUnityApp()
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            currentActivity.Call("exitUnity");
+        }
+    }
+
+    void Update()
+    {
+        // For example, when Escape key or back button is pressed, close the Unity app
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            CloseUnityApp();
+        }
+    }
 }
 
