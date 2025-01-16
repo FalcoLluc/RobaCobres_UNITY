@@ -163,7 +163,9 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Furgo"))
         {
-            // Handle Furgo interaction
+            GameManager.instance.GameWin();
+            //GameManager.instance.level++;    // Incrementar el nivel
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else if (other.CompareTag("Tren"))
         {

@@ -11,6 +11,31 @@ public class UnityToAndroidBridge : MonoBehaviour
         messageText = GameObject.Find("MessageText").GetComponent<Text>();
     }
 
+    // Method to close the Unity application
+    public void CloseUnityApp()
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            currentActivity.Call("exitUnity");
+        }
+    }
+
+    // Optional: Pause when back button is pressed (same behavior as your Pause Menu)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Call Pause from PauseMenu script
+            PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
+            if (pauseMenu != null)
+            {
+                pauseMenu.PauseGame();
+            }
+        }
+    }
+
+    //PETICIONS
     // This method will be called to send the current state of items to Android
     public void SendItemsStateToServer(string itemsStateText)
     {
@@ -33,22 +58,29 @@ public class UnityToAndroidBridge : MonoBehaviour
         messageText.text = response;
     }
 
-    // EXIT
-    public void CloseUnityApp()
+    public void SendSaveGame(string gamestring)
     {
+        // Create an AndroidJavaClass object that references the ServiceBBDD class
         using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
         {
+            // Get the current activity (UnityHostActivity)
             AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            currentActivity.Call("exitUnity");
+
+            // Call the sendStateToServer method exposed by UnityHostActivity
+            currentActivity.Call("sendSaveGame", gamestring);
         }
     }
 
-    void Update()
+    public void RequestGame()
     {
-        // For example, when Escape key or back button is pressed, close the Unity app
-        if (Input.GetKey(KeyCode.Escape))
+        // Create an AndroidJavaClass object that references the ServiceBBDD class
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
         {
-            CloseUnityApp();
+            // Get the current activity (UnityHostActivity)
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+            // Call the sendStateToServer method exposed by UnityHostActivity
+            currentActivity.Call("requestGame");
         }
     }
 }

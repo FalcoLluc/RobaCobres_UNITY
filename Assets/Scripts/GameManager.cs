@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     private BoardManager boardScript;
 
-
     public int playerCobrePoints = 100;
 
 
@@ -32,7 +31,11 @@ public class GameManager : MonoBehaviour
     private List<Enemy> enemies;
     private bool isGameOver = false; // Nuevo estado para Game Over
     //private bool enemiesMoving;
+
+    private bool isGameWin = false;
     private bool doingSetup;
+
+    private UnityToAndroidBridge unityToAndroidBridge;
 
     void Awake()
     {
@@ -41,15 +44,23 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
+
         InitGame();
+    }
+
+    void Start()
+    {
+        // Find the UnityToAndroidBridge script on an existing GameObject
+        unityToAndroidBridge = FindObjectOfType<UnityToAndroidBridge>();
     }
 
 
     private void OnLevelWasLoaded(int index)
     {
-        level++;
+        //level++;
         InitGame();
     }
 
@@ -89,8 +100,10 @@ public class GameManager : MonoBehaviour
                 enemy.StopEnemy();
         }
 
-        levelText.text = "Game Over";
-        levelImage.SetActive(true);
+        //levelText.text = "Game Over";
+        //levelImage.SetActive(true);
+        GameOverManager gameOver = FindObjectOfType<GameOverManager>();
+        gameOver.ShowPanel();
         enabled = false;
     }
 
@@ -120,5 +133,55 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void GameWin()
+    {
+        if (isGameWin) return; // Evita llamadas duplicadas
+
+        isGameWin = true;
+        Debug.Log("¡Te has pasado el nivel!");
+        level++;
+
+        // Detener la lógica adicional si el juego ha terminado
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null)
+                enemy.StopEnemy();
+        }
+
+        levelText.text = "Game Win";
+        levelImage.SetActive(true); // Mostrar la imagen
+        enabled = false; // Desactivar lógica adicional
+                         // Iniciar corrutina para ocultar la imagen después de unos segundos
+        StartCoroutine(HideLevelImageAfterDelay(2f)); // Cambia "2f" por el número de segundos deseado
+    }
+
+    // Corrutina para ocultar la imagen tras un retraso
+    private IEnumerator HideLevelImageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Esperar el tiempo especificado
+        levelImage.SetActive(false); // Ocultar la imagen
+    }
+
+    public void saveGame()
+    {
+        string level = boardScript.SaveItemsState();
+        unityToAndroidBridge.SendSaveGame(level);
+    }
+
+
+    //GAME
+    public void startLevel1()
+    {
+        level = 1;
+        InitGame();
+    }
+
+    public void continueGame()
+    {
+        //FER PETCIONS BBDD
+        unityToAndroidBridge.RequestGame();
+    }
+
 }
 

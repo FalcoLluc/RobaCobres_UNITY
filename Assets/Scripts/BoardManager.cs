@@ -99,10 +99,38 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void BoardSetup()
+    void BoardSetup(int level)
     {
-        LoadBoardFromFile("MapaLayout/BoardLayout");
-        LoadItemsFromFile("MapaLayout/ItemsLayout");
+        string boardPath = $"MapaLayout/BoardLayout{level}";
+        string itemsPath = $"MapaLayout/ItemsLayout{level}";
+        LoadBoardFromFile(boardPath);
+        LoadItemsFromFile(itemsPath);
+
+        // Verifica si los arreglos necesarios están asignados
+        if (tileTypes == null || tileTypes.Length == 0)
+        {
+            Debug.LogError("tileTypes no está asignado o está vacío.");
+            return;
+        }
+
+        if (cobreTiles == null || cobreTiles.Length == 0)
+        {
+            Debug.LogError("cobreTiles no está asignado o está vacío.");
+            return;
+        }
+
+        if (enemyTiles == null || enemyTiles.Length == 0)
+        {
+            Debug.LogError("enemyTiles no está asignado o está vacío.");
+            return;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("El objeto player no está asignado.");
+            return;
+        }
+
         boardHolder = new GameObject("Board").transform;
         gridPositions.Clear();
 
@@ -143,7 +171,7 @@ public class BoardManager : MonoBehaviour
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
 
-                //VULL QUE NOMES HI HAGI A GRID POSITIONS els que no siguin Blocking, és a dir, Default
+                // Vull que només hi hagi a gridPositions els que no siguin Blocking, és a dir, Default
                 if (instance.layer == LayerMask.NameToLayer("Default"))
                 {
                     gridPositions.Add(new Vector3(x, y, 0f)); // Only add to gridPositions if it's on the "Default" layer
@@ -151,7 +179,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        //PART ITEMS, ENEMICS
+        // PART ITEMS, ENEMICS
         for (int y = 0; y < linesItems.Count; y++) // Iteramos sobre las filas de items
         {
             for (int x = 0; x < linesItems[y].Length; x++) // Iteramos sobre las columnas
@@ -162,7 +190,7 @@ public class BoardManager : MonoBehaviour
                 {
                     case 'P':
                         {
-                            GameObject playerInstance = Instantiate(player, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el jugador                                    // Encontrar la cámara principal
+                            GameObject playerInstance = Instantiate(player, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el jugador
                             CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
                             if (cameraFollow != null)
                             {
@@ -185,13 +213,10 @@ public class BoardManager : MonoBehaviour
                     case 'W':
                         Instantiate(wallPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el wall
                         break;
-
                 }
             }
         }
     }
-
-
     // Método para crear objetos en posiciones aleatorias (extra)
     Vector3 RandomPosition()
     {
@@ -216,7 +241,7 @@ public class BoardManager : MonoBehaviour
     //DESPRES TREURE LO DE LEVEL PK ELS CLIENTS I TOT DEPENDRA DEL TXT, no del int level, idem GameManager
     public void SetupScene(int level)
     {
-        BoardSetup(); // Configura el tablero
+        BoardSetup(level); // Configura el tablero
         /*
         //PLAYER: posariem player on toca
         Vector3 randomPosition = RandomPosition();
@@ -233,5 +258,85 @@ public class BoardManager : MonoBehaviour
         //posariem el tren on toca
         Instantiate(trainPrefab, new Vector3(1, 5, 0), Quaternion.identity);
         */
+    }
+
+    public string SaveItemsState()
+    {
+        // Ruta para guardar el archivo de `ItemsLayout`
+        //string itemsPath = $"MapaLayout/ItemsLayout{level}.txt";
+
+        // Crear un array bidimensional para `ItemsLayout`
+        char[,] itemsArray = new char[rows, columns];
+
+        // Inicializar el array con el carácter por defecto ('-')
+        for (int y = 0; y < rows; y++)
+        {
+            for (int x = 0; x < columns; x++)
+            {
+                itemsArray[y, x] = '-'; // Fondo de los ítems
+            }
+        }
+
+        // Rellenar el array de `ItemsLayout` según los ítems en el mapa
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in allObjects)
+        {
+            Vector3 position = obj.transform.position;
+            int x = Mathf.RoundToInt(position.x);
+            int y = Mathf.RoundToInt(position.y);
+
+            // Ignorar posiciones fuera del rango
+            if (x < 0 || x >= columns || y < 0 || y >= rows) continue;
+
+            // Asignar el carácter correspondiente en función de la etiqueta
+            if (obj.CompareTag("Player"))
+            {
+                itemsArray[y, x] = 'P'; // Jugador
+            }
+            else if (obj.CompareTag("Enemy"))
+            {
+                itemsArray[y, x] = 'E'; // Enemigo
+            }
+            else if (obj.CompareTag("Cobre"))
+            {
+                itemsArray[y, x] = 'C'; // Cobre
+            }
+            else if (obj.CompareTag("Furgo"))
+            {
+                itemsArray[y, x] = 'F'; // Furgo
+            }
+            else if (obj.CompareTag("Train"))
+            {
+                itemsArray[y, x] = 'T'; // Tren
+            }
+            else if (obj.CompareTag("Fence"))
+            {
+                itemsArray[y, x] = 'W'; // Pared
+            }
+        }
+
+        // Crear una lista de líneas para el archivo `ItemsLayout`
+        List<string> itemsLines = new List<string>();
+
+        // Generar las líneas de `ItemsLayout`
+        for (int y = rows - 1; y >= 0; y--) // Invertir las filas para el formato correcto
+        {
+            string itemsLine = "";
+            for (int x = 0; x < columns; x++)
+            {
+                itemsLine += itemsArray[y, x];
+            }
+            itemsLines.Add(itemsLine);
+        }
+
+
+
+        string layoutData = string.Join("\n", itemsLines);
+        Debug.Log(layoutData);
+        return layoutData;
+        // Guardar el archivo en el directorio del proyecto
+        //File.WriteAllLines(Application.dataPath + "/" + itemsPath, itemsLines);
+
+        //Debug.Log($"Estado de los ítems guardado con éxito en: {itemsPath}");
     }
 }
