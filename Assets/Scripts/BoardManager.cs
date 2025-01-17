@@ -278,7 +278,7 @@ public class BoardManager : MonoBehaviour
         }
 
         // Rellenar el array de `ItemsLayout` según los ítems en el mapa
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach (GameObject obj in allObjects)
         {
             Vector3 position = obj.transform.position;

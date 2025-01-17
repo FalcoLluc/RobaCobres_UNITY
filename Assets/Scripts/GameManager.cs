@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using System.IO;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -16,9 +17,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     private BoardManager boardScript;
 
-    public int playerCobrePoints = 100;
-
-
+    public int playerCobrePoints = 0;
 
     //despres cambio quan player tingui mecanica que toca
     //[HideInInspector] public bool playersTurn = true;
@@ -27,7 +26,7 @@ public class GameManager : MonoBehaviour
     //CAMBIAR DESPRES
     private Text levelText;
     private GameObject levelImage;
-    private int level = 1;
+    private int level;
     private List<Enemy> enemies;
     private bool isGameOver = false; // Nuevo estado para Game Over
     //private bool enemiesMoving;
@@ -36,6 +35,8 @@ public class GameManager : MonoBehaviour
     private bool doingSetup;
 
     private UnityToAndroidBridge unityToAndroidBridge;
+    private bool initialScreenShown = false;
+    private Dictionary<int, object[]> levelToInfoMap;
 
     void Awake()
     {
@@ -48,13 +49,39 @@ public class GameManager : MonoBehaviour
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
 
-        InitGame();
+        levelToInfoMap = new Dictionary<int, object[]>()
+        {
+            { 1, new object[] { "R2", new Color(0f, 0.5f, 0f) } },
+            { 2, new object[] { "R4", Color.red } },
+            { 3, new object[] { "R11", Color.blue } },
+            { 4, new object[] { "R1", new Color(0.678f, 0.847f, 0.902f) } }, // Light blue
+            { 5, new object[] { "R3", Color.red } },
+            { 6, new object[] { "R8", Color.magenta } }, // Purple
+            { 7, new object[] { "R15", Color.gray } }
+        };
     }
 
     void Start()
     {
         // Find the UnityToAndroidBridge script on an existing GameObject
-        unityToAndroidBridge = FindObjectOfType<UnityToAndroidBridge>();
+        unityToAndroidBridge = FindFirstObjectByType<UnityToAndroidBridge>();
+    }
+
+    void Update()
+    {
+        {
+            // Puedes agregar l�gica global para los enemigos aqu� si es necesario.
+            if (enemies.Count == 0 || doingSetup)
+                return;
+
+            foreach (var enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    enemy.MoveEnemy();
+                }
+            }
+        }
     }
 
 
@@ -77,13 +104,16 @@ public class GameManager : MonoBehaviour
         levelImage = GameObject.Find("LevelImage");
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         //CANVIAR QUAN TINGUEM DIFERENTS NIVELLS
-        //levelText.text="Day "+level;
+        levelText.text = "Rodalies " + (string)levelToInfoMap[level][0];
+        levelImage.GetComponent<Image>().color = (Color)levelToInfoMap[level][1];
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
 
         enemies.Clear();
         boardScript.SetupScene(level);
         isGameOver = false;
+        isGameWin = false;
+        playerCobrePoints = 0;
     }
 
     public void GameOver()
@@ -102,7 +132,7 @@ public class GameManager : MonoBehaviour
 
         //levelText.text = "Game Over";
         //levelImage.SetActive(true);
-        GameOverManager gameOver = FindObjectOfType<GameOverManager>();
+        GameOverManager gameOver = FindFirstObjectByType<GameOverManager>();
         gameOver.ShowPanel();
         enabled = false;
     }
@@ -116,22 +146,6 @@ public class GameManager : MonoBehaviour
     {
         if (enemies.Contains(script))
             enemies.Remove(script);
-    }
-    void Update()
-    {
-        {
-            // Puedes agregar l�gica global para los enemigos aqu� si es necesario.
-            if (enemies.Count == 0 || doingSetup)
-                return;
-
-            foreach (var enemy in enemies)
-            {
-                if (enemy != null)
-                {
-                    enemy.MoveEnemy();
-                }
-            }
-        }
     }
 
     public void GameWin()
@@ -148,20 +162,25 @@ public class GameManager : MonoBehaviour
             if (enemy != null)
                 enemy.StopEnemy();
         }
-
+        unityToAndroidBridge.SendAddCobre(playerCobrePoints);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        /*
         levelText.text = "Game Win";
         levelImage.SetActive(true); // Mostrar la imagen
         enabled = false; // Desactivar lógica adicional
                          // Iniciar corrutina para ocultar la imagen después de unos segundos
         StartCoroutine(HideLevelImageAfterDelay(2f)); // Cambia "2f" por el número de segundos deseado
+        */
     }
 
+    /*
     // Corrutina para ocultar la imagen tras un retraso
     private IEnumerator HideLevelImageAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay); // Esperar el tiempo especificado
         levelImage.SetActive(false); // Ocultar la imagen
     }
+    */
 
     public void saveGame()
     {
@@ -174,6 +193,7 @@ public class GameManager : MonoBehaviour
     public void startLevel1()
     {
         level = 1;
+        this.initialScreenShown = true;
         InitGame();
     }
 
@@ -181,7 +201,12 @@ public class GameManager : MonoBehaviour
     {
         //FER PETCIONS BBDD
         unityToAndroidBridge.RequestGame();
+        this.initialScreenShown = true;
     }
 
+    public bool IsInitialScreenShown()
+    {
+        return initialScreenShown;
+    }
 }
 

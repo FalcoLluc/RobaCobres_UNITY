@@ -32,6 +32,7 @@ public class PauseMenu : MonoBehaviour
     // Method to be called when the Pause button is pressed
     public void PauseGame()
     {
+        SoundManager.instance.musicSource.Pause();
         // Display the pause menu panel
         pauseMenuPanel.SetActive(true);
 
@@ -42,6 +43,7 @@ public class PauseMenu : MonoBehaviour
     // Method to be called when the Resume button is pressed
     public void ResumeGame()
     {
+        SoundManager.instance.musicSource.Play();
         // Hide the pause menu panel
         pauseMenuPanel.SetActive(false);
 
@@ -61,12 +63,13 @@ public class PauseMenu : MonoBehaviour
     public void ExitGame()
     {
         // Call Android's method to exit Unity
-        UnityToAndroidBridge unityToAndroidBridge = FindObjectOfType<UnityToAndroidBridge>();
+        UnityToAndroidBridge unityToAndroidBridge = FindFirstObjectByType<UnityToAndroidBridge>();
         if (unityToAndroidBridge != null)
         {
             unityToAndroidBridge.CloseUnityApp();
         }
     }
+
 
     void Update()
     {

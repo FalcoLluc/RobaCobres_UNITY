@@ -19,6 +19,7 @@ public class GameOverManager : MonoBehaviour
     public void ShowPanel()
     {
         // Display the pause menu panel
+        SoundManager.instance.musicSource.Stop();
         gameOverMenuPanel.SetActive(true);
 
     }
@@ -26,6 +27,7 @@ public class GameOverManager : MonoBehaviour
     public void RestartGame()
     {
         Debug.Log("Restart Level");
+        SoundManager.instance.musicSource.Play();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         // You can add your own logic here to save the game's state
     }
@@ -34,7 +36,7 @@ public class GameOverManager : MonoBehaviour
     public void ExitGame()
     {
         // Call Android's method to exit Unity
-        UnityToAndroidBridge unityToAndroidBridge = FindObjectOfType<UnityToAndroidBridge>();
+        UnityToAndroidBridge unityToAndroidBridge = FindFirstObjectByType<UnityToAndroidBridge>();
         if (unityToAndroidBridge != null)
         {
             unityToAndroidBridge.CloseUnityApp();

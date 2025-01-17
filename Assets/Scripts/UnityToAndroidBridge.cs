@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class UnityToAndroidBridge : MonoBehaviour
 {
     private AndroidJavaObject serviceBBDD;
-    public Text messageText;
+    //public Text messageText;
 
     void Start()
     {
-        messageText = GameObject.Find("MessageText").GetComponent<Text>();
+        // messageText = GameObject.Find("MessageText").GetComponent<Text>();
     }
 
     // Method to close the Unity application
@@ -21,22 +21,8 @@ public class UnityToAndroidBridge : MonoBehaviour
         }
     }
 
-    // Optional: Pause when back button is pressed (same behavior as your Pause Menu)
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // Call Pause from PauseMenu script
-            PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
-            if (pauseMenu != null)
-            {
-                pauseMenu.PauseGame();
-            }
-        }
-    }
-
     //PETICIONS
-    // This method will be called to send the current state of items to Android
+    // EXEMPLE HOLA
     public void SendItemsStateToServer(string itemsStateText)
     {
         // Create an AndroidJavaClass object that references the ServiceBBDD class
@@ -50,12 +36,12 @@ public class UnityToAndroidBridge : MonoBehaviour
         }
     }
 
-    // This method is called by Android when the callback is received with the response from the server
+    // EXEMPLE CALLBACK
     public void OnServerResponse(string response)
     {
         // Handle the server response here, for example display it in a UI
         Debug.Log("Received response from server: " + response);
-        messageText.text = response;
+        //messageText.text = response;
     }
 
     public void SendSaveGame(string gamestring)
@@ -81,6 +67,18 @@ public class UnityToAndroidBridge : MonoBehaviour
 
             // Call the sendStateToServer method exposed by UnityHostActivity
             currentActivity.Call("requestGame");
+        }
+    }
+
+    public void SendAddCobre(int cobre)
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            // Get the current activity (UnityHostActivity)
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+            // Call the sendStateToServer method exposed by UnityHostActivity
+            currentActivity.Call("sendAddCobre", cobre);
         }
     }
 }

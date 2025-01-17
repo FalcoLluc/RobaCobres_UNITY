@@ -163,9 +163,8 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Furgo"))
         {
+            GameManager.instance.playerCobrePoints = cobre;
             GameManager.instance.GameWin();
-            //GameManager.instance.level++;    // Incrementar el nivel
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else if (other.CompareTag("Tren"))
         {
@@ -204,7 +203,6 @@ public class Player : MonoBehaviour
         if (cobre <= 0)
         {
             SoundManager.instance.PlaySingle(gameOverSound);
-            SoundManager.instance.musicSource.Stop();
             isImmobilized = true;
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
