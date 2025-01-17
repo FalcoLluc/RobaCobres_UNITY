@@ -305,7 +305,7 @@ public class BoardManager : MonoBehaviour
             {
                 itemsArray[y, x] = 'F'; // Furgo
             }
-            else if (obj.CompareTag("Train"))
+            else if (obj.CompareTag("Tren"))
             {
                 itemsArray[y, x] = 'T'; // Tren
             }
