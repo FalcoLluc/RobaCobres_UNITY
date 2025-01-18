@@ -44,7 +44,31 @@ public class UnityToAndroidBridge : MonoBehaviour
         //messageText.text = response;
     }
 
-    public void SendSaveGame(string gamestring)
+    public void SendAddCobre(int cobre)
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            // Get the current activity (UnityHostActivity)
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+            // Call the sendStateToServer method exposed by UnityHostActivity
+            currentActivity.Call("sendAddCobre", cobre);
+        }
+    }
+
+    public void SendAddPuntosTotales(int cobre)
+    {
+        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        {
+            // Get the current activity (UnityHostActivity)
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+            // Call the sendStateToServer method exposed by UnityHostActivity
+            currentActivity.Call("sendAddPuntosTotales", cobre);
+        }
+    }
+
+    public void SendSaveGame(string gamestring, int level)
     {
         // Create an AndroidJavaClass object that references the ServiceBBDD class
         using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -53,10 +77,11 @@ public class UnityToAndroidBridge : MonoBehaviour
             AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
             // Call the sendStateToServer method exposed by UnityHostActivity
-            currentActivity.Call("sendSaveGame", gamestring);
+            currentActivity.Call("sendSaveGame", gamestring, level);
         }
     }
 
+    //FALTA IMPLEMENTAR A ANDROID
     public void RequestGame()
     {
         // Create an AndroidJavaClass object that references the ServiceBBDD class
@@ -67,18 +92,6 @@ public class UnityToAndroidBridge : MonoBehaviour
 
             // Call the sendStateToServer method exposed by UnityHostActivity
             currentActivity.Call("requestGame");
-        }
-    }
-
-    public void SendAddCobre(int cobre)
-    {
-        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            // Get the current activity (UnityHostActivity)
-            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-            // Call the sendStateToServer method exposed by UnityHostActivity
-            currentActivity.Call("sendAddCobre", cobre);
         }
     }
 }

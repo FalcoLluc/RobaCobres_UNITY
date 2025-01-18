@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private BoardManager boardScript;
 
     public int playerCobrePoints = 0;
+    private int playerCobreTotales = 0;
 
     //despres cambio quan player tingui mecanica que toca
     //[HideInInspector] public bool playersTurn = true;
@@ -55,9 +56,7 @@ public class GameManager : MonoBehaviour
             { 2, new object[] { "R4", Color.red } },
             { 3, new object[] { "R11", Color.blue } },
             { 4, new object[] { "R1", new Color(0.678f, 0.847f, 0.902f) } }, // Light blue
-            { 5, new object[] { "R3", Color.red } },
-            { 6, new object[] { "R8", Color.magenta } }, // Purple
-            { 7, new object[] { "R15", Color.gray } }
+            { 5, new object[] { "R3", Color.red } }
         };
     }
 
@@ -154,16 +153,30 @@ public class GameManager : MonoBehaviour
 
         isGameWin = true;
         Debug.Log("¡Te has pasado el nivel!");
-        level++;
-
         // Detener la lógica adicional si el juego ha terminado
         foreach (var enemy in enemies)
         {
             if (enemy != null)
                 enemy.StopEnemy();
         }
-        unityToAndroidBridge.SendAddCobre(playerCobrePoints);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //unityToAndroidBridge.SendAddCobre(playerCobrePoints);
+        playerCobreTotales += playerCobrePoints;
+
+        if (level == 5)
+        {
+            Debug.Log("¡Te has pasado el juego!");
+            doingSetup = true;
+            //CANVIAR QUAN TINGUEM DIFERENTS NIVELLS
+            levelText.text = "Has conseguido cargarte la red de Rodalies, felicidades!";
+            levelImage.GetComponent<Image>().color = Color.yellow;
+            levelImage.SetActive(true);
+            //unityToAndroidBridge.SendAddPuntosTotales(playerCobreTotales);
+        }
+        else
+        {
+            level++;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
         /*
         levelText.text = "Game Win";
         levelImage.SetActive(true); // Mostrar la imagen
@@ -185,7 +198,7 @@ public class GameManager : MonoBehaviour
     public void saveGame()
     {
         string level = boardScript.SaveItemsState();
-        unityToAndroidBridge.SendSaveGame(level);
+        unityToAndroidBridge.SendSaveGame(level, this.level);
     }
 
 
