@@ -97,6 +97,33 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+    void LoadItemsFromString(string txtItems)
+    {
+        linesItems.Clear();
+        try
+        {
+            linesItems.AddRange(txtItems.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error al cargar el archivo de objetos: " + e.Message);
+        }
+        linesItems.Reverse();
+
+        for (int y = 0; y < linesItems.Count; y++)
+        {
+            for (int x = 0; x < linesItems[y].Length; x++)
+            {
+                if (linesItems[y][x] == 'O')
+                {
+                    originPosition = new Vector3(x, y, 0f);
+                    Debug.Log($"Origen encontrado en posición: {originPosition}");
+                    return; // Asumimos que solo hay un origen, salir al encontrarlo
+                }
+            }
+        }
+    }
+
 
     // Método para convertir una letra en un índice de tile
     int GetTileIndexFromLetter(char tileChar)
@@ -115,7 +142,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void BoardSetup(int level)
+    public void BoardSetup(int level)
     {
         string boardPath = $"MapaLayout/BoardLayout{level}";
         string itemsPath = $"MapaLayout/ItemsLayout{level}";
@@ -205,7 +232,175 @@ public class BoardManager : MonoBehaviour
             for (int x = 0; x < linesItems[y].Length; x++) // Iteramos sobre las columnas
             {
                 char itemChar = linesItems[y][x]; // Obtenemos el carácter en la posición (x, y)
-               
+
+                switch (itemChar)
+                {
+                    case 'P':
+                        {
+                            GameObject playerInstance = Instantiate(player, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el jugador
+                            CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+                            if (cameraFollow != null)
+                            {
+                                cameraFollow.target = playerInstance.transform;
+                            }
+                            break;
+                        }
+                    case 'E':
+                        Instantiate(enemyTiles[UnityEngine.Random.Range(0, enemyTiles.Length)], new Vector3(x, y, 0f), Quaternion.identity); // Instancia un enemigo
+                        break;
+                    case 'C':
+                        Instantiate(cobreTiles[UnityEngine.Random.Range(0, cobreTiles.Length)], new Vector3(x, y, 0f), Quaternion.identity); // Instancia el cobre
+                        break;
+                    case 'F':
+                        Instantiate(furgo, new Vector3(x, y, 0f), Quaternion.identity); // Instancia la furgo
+                        break;
+                    case 'O':
+                        {
+                            if (!originsByRow.ContainsKey(y))
+                                originsByRow[y] = new List<Vector3>();
+                            originsByRow[y].Add(new Vector3(x, y, 0f));
+                            break;
+                        }
+                    case 'T':
+                        {
+                            if (!trainsByRow.ContainsKey(y))
+                                trainsByRow[y] = new List<Vector3>();
+                            trainsByRow[y].Add(new Vector3(x, y, 0f));
+                            break;
+                        }
+                    case 'W':
+                        Instantiate(wallPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el wall
+                        break;
+                }
+            }
+        }
+        foreach (var row in trainsByRow.Keys)
+        {
+            if (originsByRow.ContainsKey(row))
+            {
+                List<Vector3> rowTrains = trainsByRow[row];
+                List<Vector3> rowOrigins = originsByRow[row];
+
+                int pairs = Mathf.Min(rowTrains.Count, rowOrigins.Count);
+                for (int i = 0; i < pairs; i++)
+                {
+                    Vector3 trainPos = rowTrains[i];
+                    Vector3 originPos = rowOrigins[i];
+
+                    // Instanciar y configurar el tren
+                    GameObject trainInstance = Instantiate(trainPrefab, trainPos, Quaternion.identity);
+                    Train trainScript = trainInstance.GetComponent<Train>();
+                    if (trainScript != null)
+                    {
+                        trainScript.startPosition = trainPos;
+                        trainScript.originPosition = originPos;
+                        trainScript.speed = UnityEngine.Random.Range(trainScript.minSpeed, trainScript.maxSpeed);
+                    }
+                }
+
+                // Mensajes de advertencia si sobran trenes u orígenes
+                if (rowTrains.Count > rowOrigins.Count)
+                    Debug.LogWarning($"Fila {row}: Sobran {rowTrains.Count - rowOrigins.Count} trenes.");
+                if (rowOrigins.Count > rowTrains.Count)
+                    Debug.LogWarning($"Fila {row}: Sobran {rowOrigins.Count - rowTrains.Count} orígenes.");
+            }
+            else
+            {
+                Debug.LogWarning($"Fila {row}: Hay trenes pero no hay orígenes.");
+            }
+        }
+
+    }
+    public void BoardSetupString(string txtItems, int level)
+    {
+        string boardPath = $"MapaLayout/BoardLayout{level}";
+        LoadBoardFromFile(boardPath);
+        LoadItemsFromString(txtItems);
+
+        // Verifica si los arreglos necesarios están asignados
+        if (tileTypes == null || tileTypes.Length == 0)
+        {
+            Debug.LogError("tileTypes no está asignado o está vacío.");
+            return;
+        }
+
+        if (cobreTiles == null || cobreTiles.Length == 0)
+        {
+            Debug.LogError("cobreTiles no está asignado o está vacío.");
+            return;
+        }
+
+        if (enemyTiles == null || enemyTiles.Length == 0)
+        {
+            Debug.LogError("enemyTiles no está asignado o está vacío.");
+            return;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("El objeto player no está asignado.");
+            return;
+        }
+
+        boardHolder = new GameObject("Board").transform;
+        gridPositions.Clear();
+
+        // Diccionario para relacionar trenes y orígenes por fila
+        Dictionary<int, List<Vector3>> trainsByRow = new Dictionary<int, List<Vector3>>();
+        Dictionary<int, List<Vector3>> originsByRow = new Dictionary<int, List<Vector3>>();
+
+        // PART TILES
+        for (int y = 0; y < rows; y++) // Primero iteramos sobre las filas
+        {
+            for (int x = 0; x < columns; x++) // Después sobre las columnas
+            {
+                GameObject toInstantiate;
+                char tileChar;
+
+                // Comprobamos si la fila actual tiene suficientes columnas
+                if (x < lines[y].Length)
+                {
+                    // Si hay suficientes columnas, obtenemos el carácter en la posición (x, y)
+                    tileChar = lines[y][x];
+                }
+                else
+                {
+                    // Si no hay suficiente longitud en la fila, asignamos un carácter por defecto
+                    tileChar = ' '; //No es valid, retornara -1 i li asignarem el default
+                }
+
+                // Convertimos el carácter en un índice de tile
+                int tileIndex = GetTileIndexFromLetter(tileChar);
+
+                if (tileIndex >= 0 && tileIndex < tileTypes.Length)
+                {
+                    toInstantiate = tileTypes[tileIndex]; // Instanciamos el tile correspondiente
+                }
+                else
+                {
+                    // Si el índice no es válido, usamos un tile vacío o por defecto
+                    toInstantiate = defaultTile; // O cualquier tile por defecto
+                }
+
+                // Instanciamos el objeto en la posición (x, y)
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
+                instance.transform.SetParent(boardHolder);
+
+                // Vull que només hi hagi a gridPositions els que no siguin Blocking, és a dir, Default
+                if (instance.layer == LayerMask.NameToLayer("Default"))
+                {
+                    gridPositions.Add(new Vector3(x, y, 0f)); // Only add to gridPositions if it's on the "Default" layer
+                }
+            }
+        }
+
+        // PART ITEMS, ENEMICS
+        for (int y = 0; y < linesItems.Count; y++) // Iteramos sobre las filas de items
+        {
+            for (int x = 0; x < linesItems[y].Length; x++) // Iteramos sobre las columnas
+            {
+                char itemChar = linesItems[y][x]; // Obtenemos el carácter en la posición (x, y)
+
                 switch (itemChar)
                 {
                     case 'P':
@@ -303,28 +498,6 @@ public class BoardManager : MonoBehaviour
             GameObject tileChoice = tileArray[UnityEngine.Random.Range(0, tileArray.Length)];
             Instantiate(tileChoice, randomPosition, Quaternion.identity);
         }
-    }
-
-    //DESPRES TREURE LO DE LEVEL PK ELS CLIENTS I TOT DEPENDRA DEL TXT, no del int level, idem GameManager
-    public void SetupScene(int level)
-    {
-        BoardSetup(level); // Configura el tablero
-        /*
-        //PLAYER: posariem player on toca
-        Vector3 randomPosition = RandomPosition();
-        // Instanciar el Player
-        GameObject playerInstance = Instantiate(player, randomPosition, Quaternion.identity);
-
-
-
-
-        //posariem la furgo on toca;
-        randomPosition = RandomPosition();
-        Instantiate(furgo, randomPosition, Quaternion.identity);
-
-        //posariem el tren on toca
-        Instantiate(trainPrefab, new Vector3(1, 5, 0), Quaternion.identity);
-        */
     }
 
     public string SaveItemsState()

@@ -68,7 +68,7 @@ public class UnityToAndroidBridge : MonoBehaviour
         }
     }
 
-    public void SendSaveGame(string gamestring, int level)
+    public void SendSaveGame(string gamestring, int level, int cobreActual, int cobreTotal)
     {
         // Create an AndroidJavaClass object that references the ServiceBBDD class
         using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -77,7 +77,7 @@ public class UnityToAndroidBridge : MonoBehaviour
             AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
             // Call the sendStateToServer method exposed by UnityHostActivity
-            currentActivity.Call("sendSaveGame", gamestring, level);
+            currentActivity.Call("sendSaveGame", gamestring, level, cobreActual, cobreTotal);
         }
     }
 
@@ -102,12 +102,16 @@ public class UnityToAndroidBridge : MonoBehaviour
         // Extract the levelstring and level
         string levelstring = parts[0];
         int level = int.Parse(parts[1]);
+        int cobreActual = int.Parse(parts[2]);
+        int cobreTotal = int.Parse(parts[3]);
         Debug.Log("Received response from server: " + levelstring + "Received Level: " + level);
+        GameManager.instance.InitGameContinue(levelstring, level, cobreActual, cobreTotal);
     }
 
-    public void OnLevelResponseNoExsiting(string levelstring)
+    public void OnLevelResponseNoExisting()
     {
         Debug.Log("Received response from server: Not Found");
+        GameManager.instance.startLevel1();
     }
 }
 

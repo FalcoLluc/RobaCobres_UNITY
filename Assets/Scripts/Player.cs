@@ -175,6 +175,7 @@ public class Player : MonoBehaviour
         else if (other.CompareTag("Cobre"))
         {
             cobre += pointsPerCobre;
+            GameManager.instance.playerCobrePoints = cobre;
             other.gameObject.SetActive(false);
             cobreText.text = "Cobre: " + cobre;
         }
@@ -194,6 +195,7 @@ public class Player : MonoBehaviour
     {
         animator.SetTrigger("playerHit");
         cobre -= loss;
+        GameManager.instance.playerCobrePoints = cobre;
         cobreText.text = "Cobre: " + cobre;
         CheckIfGameOver();
     }

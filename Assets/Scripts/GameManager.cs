@@ -109,7 +109,28 @@ public class GameManager : MonoBehaviour
         Invoke("HideLevelImage", levelStartDelay);
 
         enemies.Clear();
-        boardScript.SetupScene(level);
+        boardScript.BoardSetup(level);
+        isGameOver = false;
+        isGameWin = false;
+        playerCobrePoints = 0;
+    }
+
+    public void InitGameContinue(string txt, int _level, int _cobreActual, int _cobreTotal)
+    {
+        doingSetup = true;
+        level = _level;
+        playerCobrePoints = _cobreActual;
+        playerCobreTotales = _cobreTotal;
+        levelImage = GameObject.Find("LevelImage");
+        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        //CANVIAR QUAN TINGUEM DIFERENTS NIVELLS
+        levelText.text = "Rodalies " + (string)levelToInfoMap[level][0];
+        levelImage.GetComponent<Image>().color = (Color)levelToInfoMap[level][1];
+        levelImage.SetActive(true);
+        Invoke("HideLevelImage", levelStartDelay);
+
+        enemies.Clear();
+        boardScript.BoardSetupString(txt, _level);
         isGameOver = false;
         isGameWin = false;
         playerCobrePoints = 0;
@@ -159,7 +180,7 @@ public class GameManager : MonoBehaviour
             if (enemy != null)
                 enemy.StopEnemy();
         }
-        //unityToAndroidBridge.SendAddCobre(playerCobrePoints);
+        unityToAndroidBridge.SendAddCobre(playerCobrePoints);
         playerCobreTotales += playerCobrePoints;
 
         if (level == 5)
@@ -177,28 +198,11 @@ public class GameManager : MonoBehaviour
             level++;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        /*
-        levelText.text = "Game Win";
-        levelImage.SetActive(true); // Mostrar la imagen
-        enabled = false; // Desactivar lógica adicional
-                         // Iniciar corrutina para ocultar la imagen después de unos segundos
-        StartCoroutine(HideLevelImageAfterDelay(2f)); // Cambia "2f" por el número de segundos deseado
-        */
     }
-
-    /*
-    // Corrutina para ocultar la imagen tras un retraso
-    private IEnumerator HideLevelImageAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay); // Esperar el tiempo especificado
-        levelImage.SetActive(false); // Ocultar la imagen
-    }
-    */
-
     public void saveGame()
     {
-        string level = boardScript.SaveItemsState();
-        unityToAndroidBridge.SendSaveGame(level, this.level);
+        string levelStr = boardScript.SaveItemsState();
+        unityToAndroidBridge.SendSaveGame(levelStr, level, playerCobrePoints, playerCobreTotales);
     }
 
 
