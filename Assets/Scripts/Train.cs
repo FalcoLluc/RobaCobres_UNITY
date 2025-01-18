@@ -6,20 +6,39 @@ public class Train : MonoBehaviour
     public float maxSpeed; // Maximum speed of the train
     public float speed;
     private Vector3 moveDirection = Vector3.right;  // Direction the train is moving
-    private Vector3 startPosition;  // Store the train's starting position
+    public Vector3 startPosition;  // Store the train's starting position
+    public Vector3 originPosition;
 
     private Rigidbody2D rb2d;  // Reference to Rigidbody2D for detecting collisions
 
     private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
 
+
+    private static bool isFirstTrain = true;
+
     // Start method to set initial conditions
     void Start()
     {
-        startPosition = transform.position;  // Store the starting position of the train
+        //transform.position = startPosition;  // Posició inicial assignada pel board manager
         rb2d = GetComponent<Rigidbody2D>();  // Get the Rigidbody2D component
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (isFirstTrain)
+        {
+            transform.position = startPosition;
+            isFirstTrain = false; // Mark that the first train has been initialized
+        }
+        else
+        {
+            transform.position = originPosition;
+        }
+
+        if (speed == 0)
+        {
+            speed = Random.Range(minSpeed, maxSpeed);
+        }
     }
 
     // FixedUpdate method to move the train
@@ -43,7 +62,7 @@ public class Train : MonoBehaviour
     // Reset the train to its starting position
     void ResetTrainPosition()
     {
-        transform.position = startPosition;  // Set the train's position back to the origin
+        transform.position = originPosition;  // Set the train's position back to the origin
         rb2d.linearVelocity = Vector2.zero;  // Reset velocity to prevent movement after reset
 
         // SPEED RANDOM

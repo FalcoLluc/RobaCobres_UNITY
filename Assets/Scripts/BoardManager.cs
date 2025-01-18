@@ -36,6 +36,9 @@ public class BoardManager : MonoBehaviour
     private Transform boardHolder; // Contenedor del tablero
     private List<Vector3> gridPositions = new List<Vector3>(); // Arreglo de posiciones de tiles
 
+
+    private Vector3? originPosition;
+
     // Método para cargar el archivo de texto y crear el tablero con formas no cuadradas
     void LoadBoardFromFile(string filePath)
     {
@@ -80,6 +83,19 @@ public class BoardManager : MonoBehaviour
             Debug.LogError("Error al cargar el archivo de objetos: " + e.Message);
         }
         linesItems.Reverse();
+
+        for (int y = 0; y < linesItems.Count; y++)
+        {
+            for (int x = 0; x < linesItems[y].Length; x++)
+            {
+                if (linesItems[y][x] == 'O')
+                {
+                    originPosition = new Vector3(x, y, 0f);
+                    Debug.Log($"Origen encontrado en posición: {originPosition}");
+                    return; // Asumimos que solo hay un origen, salir al encontrarlo
+                }
+            }
+        }
     }
 
     // Método para convertir una letra en un índice de tile
@@ -134,6 +150,10 @@ public class BoardManager : MonoBehaviour
         boardHolder = new GameObject("Board").transform;
         gridPositions.Clear();
 
+        // Diccionario para relacionar trenes y orígenes por fila
+        Dictionary<int, List<Vector3>> trainsByRow = new Dictionary<int, List<Vector3>>();
+        Dictionary<int, List<Vector3>> originsByRow = new Dictionary<int, List<Vector3>>();
+
         // PART TILES
         for (int y = 0; y < rows; y++) // Primero iteramos sobre las filas
         {
@@ -185,7 +205,7 @@ public class BoardManager : MonoBehaviour
             for (int x = 0; x < linesItems[y].Length; x++) // Iteramos sobre las columnas
             {
                 char itemChar = linesItems[y][x]; // Obtenemos el carácter en la posición (x, y)
-
+               
                 switch (itemChar)
                 {
                     case 'P':
@@ -207,15 +227,62 @@ public class BoardManager : MonoBehaviour
                     case 'F':
                         Instantiate(furgo, new Vector3(x, y, 0f), Quaternion.identity); // Instancia la furgo
                         break;
+                    case 'O':
+                        {
+                            if (!originsByRow.ContainsKey(y))
+                                originsByRow[y] = new List<Vector3>();
+                            originsByRow[y].Add(new Vector3(x, y, 0f));
+                            break;
+                        }
                     case 'T':
-                        Instantiate(trainPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el tren
-                        break;
+                        {
+                            if (!trainsByRow.ContainsKey(y))
+                                trainsByRow[y] = new List<Vector3>();
+                            trainsByRow[y].Add(new Vector3(x, y, 0f));
+                            break;
+                        }
                     case 'W':
                         Instantiate(wallPrefab, new Vector3(x, y, 0f), Quaternion.identity); // Instancia el wall
                         break;
                 }
             }
         }
+        foreach (var row in trainsByRow.Keys)
+        {
+            if (originsByRow.ContainsKey(row))
+            {
+                List<Vector3> rowTrains = trainsByRow[row];
+                List<Vector3> rowOrigins = originsByRow[row];
+
+                int pairs = Mathf.Min(rowTrains.Count, rowOrigins.Count);
+                for (int i = 0; i < pairs; i++)
+                {
+                    Vector3 trainPos = rowTrains[i];
+                    Vector3 originPos = rowOrigins[i];
+
+                    // Instanciar y configurar el tren
+                    GameObject trainInstance = Instantiate(trainPrefab, trainPos, Quaternion.identity);
+                    Train trainScript = trainInstance.GetComponent<Train>();
+                    if (trainScript != null)
+                    {
+                        trainScript.startPosition = trainPos;
+                        trainScript.originPosition = originPos;
+                        trainScript.speed = UnityEngine.Random.Range(trainScript.minSpeed, trainScript.maxSpeed);
+                    }
+                }
+
+                // Mensajes de advertencia si sobran trenes u orígenes
+                if (rowTrains.Count > rowOrigins.Count)
+                    Debug.LogWarning($"Fila {row}: Sobran {rowTrains.Count - rowOrigins.Count} trenes.");
+                if (rowOrigins.Count > rowTrains.Count)
+                    Debug.LogWarning($"Fila {row}: Sobran {rowOrigins.Count - rowTrains.Count} orígenes.");
+            }
+            else
+            {
+                Debug.LogWarning($"Fila {row}: Hay trenes pero no hay orígenes.");
+            }
+        }
+
     }
     // Método para crear objetos en posiciones aleatorias (extra)
     Vector3 RandomPosition()
@@ -312,6 +379,16 @@ public class BoardManager : MonoBehaviour
             else if (obj.CompareTag("Fence"))
             {
                 itemsArray[y, x] = 'W'; // Pared
+            }
+        }
+
+        if (originPosition.HasValue)
+        {
+            int originX = Mathf.RoundToInt(originPosition.Value.x);
+            int originY = Mathf.RoundToInt(originPosition.Value.y);
+            if (originX >= 0 && originX < columns && originY >= 0 && originY < rows)
+            {
+                itemsArray[originY, originX] = 'O';
             }
         }
 
