@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
             levelText.text = "Has conseguido cargarte la red de Rodalies, felicidades!";
             levelImage.GetComponent<Image>().color = Color.yellow;
             levelImage.SetActive(true);
-            //unityToAndroidBridge.SendAddPuntosTotales(playerCobreTotales);
+            unityToAndroidBridge.SendAddPuntosTotales(playerCobreTotales);
         }
         else
         {

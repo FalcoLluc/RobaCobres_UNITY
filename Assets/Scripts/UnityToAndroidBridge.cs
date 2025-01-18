@@ -94,5 +94,20 @@ public class UnityToAndroidBridge : MonoBehaviour
             currentActivity.Call("requestGame");
         }
     }
+
+    public void OnLevelResponse(string combinedMessage)
+    {
+        string[] parts = combinedMessage.Split('|');
+
+        // Extract the levelstring and level
+        string levelstring = parts[0];
+        int level = int.Parse(parts[1]);
+        Debug.Log("Received response from server: " + levelstring + "Received Level: " + level);
+    }
+
+    public void OnLevelResponseNoExsiting(string levelstring)
+    {
+        Debug.Log("Received response from server: Not Found");
+    }
 }
 
