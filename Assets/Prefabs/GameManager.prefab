@@ -75,6 +75,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf205d1955b148729aaefb9b4f88448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnDelay: 0.1
-  playerCobrePoints: 100
-  playersTurn: 1
+  levelStartDelay: 2
+  R2: {fileID: 8300000, guid: 5deb21d4e062040548ddef3dd8fbd880, type: 3}

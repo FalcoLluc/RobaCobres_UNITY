@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     private BoardManager boardScript;
 
-    private int playerCobrePoints = 0;
-    private int playerCobreTotales = 0;
+    public int playerCobrePoints;
+    public int playerCobreTotales;
 
     //despres cambio quan player tingui mecanica que toca
     //[HideInInspector] public bool playersTurn = true;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private bool initialScreenShown = false;
     private Dictionary<int, object[]> levelToInfoMap;
 
-
+    public AudioClip R2;
 
     void Awake()
     {
@@ -100,6 +100,11 @@ public class GameManager : MonoBehaviour
         doingSetup = false;
     }
 
+    public bool GetSetupState()
+    {
+        return doingSetup;
+    }
+
     void InitGame()
     {
         doingSetup = true;
@@ -110,12 +115,13 @@ public class GameManager : MonoBehaviour
         levelText.text = "Rodalies " + (string)levelToInfoMap[level][0];
         levelImage.GetComponent<Image>().color = (Color)levelToInfoMap[level][1];
         levelImage.SetActive(true);
-        Invoke("HideLevelImage", levelStartDelay);
+        playerCobrePoints = 0;
+        playerCobreTotales = 0;
         enemies.Clear();
+        Invoke("HideLevelImage", levelStartDelay);
         boardScript.BoardSetup(level);
         isGameOver = false;
         isGameWin = false;
-        playerCobrePoints = 0;
     }
 
     public void InitGameContinue(string txt, int _level, int _cobreActual, int _cobreTotal)
@@ -184,7 +190,7 @@ public class GameManager : MonoBehaviour
             if (enemy != null)
                 enemy.StopEnemy();
         }
-        //unityToAndroidBridge.SendAddCobre(playerCobrePoints);
+        unityToAndroidBridge.SendAddCobre(playerCobrePoints);
         playerCobreTotales += playerCobrePoints;
 
         if (level == 5)
@@ -192,8 +198,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("¡Te has pasado el juego!");
             doingSetup = true;
             //CANVIAR QUAN TINGUEM DIFERENTS NIVELLS
-            levelText.text = "Has conseguido cargarte la red de Rodalies, felicidades!";
-            levelImage.GetComponent<Image>().color = Color.yellow;
+            levelText.text = "Has conseguido cargarte la red de Rodalies, felicidades! \n\n Cobre Total Robado: " + playerCobreTotales;
+            levelImage.GetComponent<Image>().color = new Color(1f, 0.5f, 0f, 1f);
             levelImage.SetActive(true);
             unityToAndroidBridge.SendAddPuntosTotales(playerCobreTotales);
         }
@@ -215,6 +221,7 @@ public class GameManager : MonoBehaviour
     {
         level = 1;
         this.initialScreenShown = true;
+        SoundManager.instance.PlaySingle(R2);
         InitGame();
     }
 
@@ -230,25 +237,11 @@ public class GameManager : MonoBehaviour
         return initialScreenShown;
     }
 
-    public void setCobre(int cobre)
+    public void actualizarTextoCobre()
     {
-        if ( cobre >= 0)
+        if (playerCobrePoints >= 0)
         {
-            this.playerCobrePoints = cobre;
-        }
-        else
-        {
-            this.playerCobrePoints = 0;
-        }
-        
-        Player.instance.CheckIfGameOver();
-    }
-
-    public void actualizarTextoCobre(int cobre)
-    {
-        if (cobre >= 0)
-        {
-            cobreText.text = "Cobre:" + cobre;
+            cobreText.text = "Cobre:" + playerCobrePoints;
         }
         else
         {

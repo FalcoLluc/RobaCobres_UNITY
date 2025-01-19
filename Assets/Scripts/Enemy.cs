@@ -56,13 +56,14 @@ public class Enemy : MonoBehaviour
 
     public void MoveEnemy()
     {
-        if (target == null || rb == null || isBlocked) return;
+        if (target == null || rb == null || isBlocked || GameManager.instance.GetSetupState()) return;
 
         // Raycast para detectar si hay un obstáculo entre el enemigo y el jugador
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (target.position - transform.position).normalized, detectionDistance, wallLayer);
         if (hit.collider != null)
         {
             AvoidObstacle(); // Si detecta un obstáculo, evadirlo
+            animator.SetBool("isMoving", false);
         }
         else
         {
@@ -71,16 +72,17 @@ public class Enemy : MonoBehaviour
             // Movimiento hacia el jugador
             Vector2 newPosition = Vector2.MoveTowards(rb.position, target.position, moveSpeed * Time.deltaTime);
             rb.MovePosition(newPosition);
+            animator.SetBool("isMoving", true);
         }
 
         // Animación o dirección del sprite
         if (target.position.x < transform.position.x)
         {
-            spriteRenderer.flipX = false;
+            spriteRenderer.flipX = true;
         }
         else
         {
-            spriteRenderer.flipX = true;
+            spriteRenderer.flipX = false;
         }
     }
 

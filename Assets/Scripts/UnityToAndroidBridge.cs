@@ -104,7 +104,7 @@ public class UnityToAndroidBridge : MonoBehaviour
         int level = int.Parse(parts[1]);
         int cobreActual = int.Parse(parts[2]);
         int cobreTotal = int.Parse(parts[3]);
-        Debug.Log("Received response from server: " + levelstring + "Received Level: " + level);
+        Debug.Log("Received response from server: " + levelstring + "Received Level: " + level + " Received Cobre: " + cobreActual);
         GameManager.instance.InitGameContinue(levelstring, level, cobreActual, cobreTotal);
     }
 

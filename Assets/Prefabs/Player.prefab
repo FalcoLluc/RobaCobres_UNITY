@@ -207,6 +207,7 @@ MonoBehaviour:
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
   moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
   gameOverSound: {fileID: 8300000, guid: e2beefeb2273f4efe992adf5b8d67c29, type: 3}
-  cobreText: {fileID: 0}
+  renfeFinal: {fileID: 8300000, guid: c0b8c1b14222b496298e92318428238d, type: 3}
+  coinSound: {fileID: 8300000, guid: b0069a6852a5a408099c702f65ce2345, type: 3}
   joystickBackground: {fileID: 0}
   joystickHandle: {fileID: 0}
