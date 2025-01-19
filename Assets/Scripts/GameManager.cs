@@ -116,7 +116,6 @@ public class GameManager : MonoBehaviour
         levelImage.GetComponent<Image>().color = (Color)levelToInfoMap[level][1];
         levelImage.SetActive(true);
         playerCobrePoints = 0;
-        playerCobreTotales = 0;
         enemies.Clear();
         Invoke("HideLevelImage", levelStartDelay);
         boardScript.BoardSetup(level);
@@ -221,6 +220,7 @@ public class GameManager : MonoBehaviour
     {
         level = 1;
         this.initialScreenShown = true;
+        playerCobreTotales = 0;
         SoundManager.instance.PlaySingle(R2);
         InitGame();
     }
