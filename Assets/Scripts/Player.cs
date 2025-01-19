@@ -25,18 +25,38 @@ public class Player : MonoBehaviour
     public AudioClip moveSound2;
     public AudioClip gameOverSound;
 
-    public Text cobreText;
+    //public Text cobreText;
     // Joystick Variables
     public Image joystickBackground;  // Change this to Image
     public Image joystickHandle;      // Change this to Image
 
+    public static Player instance = null;
+    
+    void Awake()
+    {
+        // Verifica si ya hay una instancia de Player
+        if (instance == null)
+        {
+            instance = this; // Asigna esta instancia
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject); // Destruye el duplicado
+        }
+
+        // Opcional: Si necesitas que este objeto persista entre escenas
+        //DontDestroyOnLoad(gameObject);
+    }
+
+
     void Start()
     {
-        cobreText = GameObject.Find("CobreText").GetComponent<Text>();
+        //cobreText = GameObject.Find("CobreText").GetComponent<Text>();
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
-        cobreText.text = "Cobre: " + cobre;
+        GameManager.instance.actualizarTextoCobre(cobre);
 
         joystickBackground = GameObject.Find("JoystickBackground").GetComponent<Image>();
         joystickHandle = GameObject.Find("JoystickHandle").GetComponent<Image>();
@@ -163,21 +183,30 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Furgo"))
         {
-            GameManager.instance.playerCobrePoints = cobre;
+            GameManager.instance.setCobre(cobre);
             GameManager.instance.GameWin();
         }
         else if (other.CompareTag("Tren"))
         {
             cobre = 0;
+            GameManager.instance.setCobre(cobre);
+            GameManager.instance.actualizarTextoCobre(cobre);
             Debug.Log("Game Over Atropellado");
-            CheckIfGameOver();
+            //CheckIfGameOver();
         }
         else if (other.CompareTag("Cobre"))
         {
             cobre += pointsPerCobre;
-            GameManager.instance.playerCobrePoints = cobre;
+            try
+            {
+                GameManager.instance.setCobre(cobre);
+            }
+            catch 
+            {
+                Debug.LogError("Error en setCobre: ");
+            }
             other.gameObject.SetActive(false);
-            cobreText.text = "Cobre: " + cobre;
+            GameManager.instance.actualizarTextoCobre(cobre);
         }
         else if (other.CompareTag("CobreRajola"))
         {
@@ -195,12 +224,13 @@ public class Player : MonoBehaviour
     {
         animator.SetTrigger("playerHit");
         cobre -= loss;
-        GameManager.instance.playerCobrePoints = cobre;
-        cobreText.text = "Cobre: " + cobre;
-        CheckIfGameOver();
+        GameManager.instance.setCobre(cobre);
+        GameManager.instance.actualizarTextoCobre(cobre);
+
+
     }
 
-    private void CheckIfGameOver()
+    public void CheckIfGameOver()
     {
         if (cobre <= 0)
         {
